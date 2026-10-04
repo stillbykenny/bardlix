@@ -89,6 +89,7 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   <iframe id="scp" height="450" scrolling="no" allow="autoplay" loading="lazy"
     src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bardlix&color=%23ff6a1a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"></iframe>
   <div class="links" style="margin-top:22px">
+    <a class="btn" href="#" id="showall">All tracks</a>
     <a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">Follow on SoundCloud</a>
   </div>
 </section>
@@ -153,24 +154,26 @@ document.getElementById('y').textContent=new Date().getFullYear();
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-// Click a cover -> play that track in the SoundCloud player
+// Click a cover -> load and play that track in the SoundCloud player
 (function(){
   const norm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');
+  const alias={knithvision:'knightvision'};
+  const T={};
+  "Dance With Myself|dance-with-myself;HEY STUPID|hey-stupid;Higher Than Tonight|higher-than-tonight;Lose control|lose-control;FEEL ALIVE|feel-alive;AFTER DARK|after-dark;No Sleep|no-sleep;Lost, Can You Find Me|lost-can-you-find-me;FLY AWAY|fly-away;SHOW ME|show-me;Sunday Netflix & Chill|sunday-netflix-chill;MAKE LOVE NOT WAR|make-love-not-war;HEART OVER POWER|heart-over-power;Six Six Six - EDM|six-six-six-edm;Don’t Wake the Neighbors|dont-wake-the-neighbors;Who’s Looking Back|whos-looking-back;KNIGHTVISION|knightvision;Kaleidoscope|kaleidoscope;After work|after-work;I Wanna Party|i-wanna-party;WHEN YOU’RE SOBER|when-youre-sober;Lost in Love & Music|lost-in-love-music;Six Shots of Goodbye|six-shots-of-goodbye;Sea of Shades|sea-of-shades;AYIA NAPA NIGHTS|ayia-napa-nights;Kyss mig fel|kyss-mig-fel;Broken Trust Road|broken-trust-road;Live Your Dream|live-your-dream;This is Paradise|this-is-paradise;Don´t you worry|don-t-you-worry;Push it Harder|push-it-harder".split(';').forEach(x=>{const [n,u]=x.split('|');T[norm(n)]='https://soundcloud.com/bardlix/'+u});
   const w=SC.Widget(document.getElementById('scp'));
-  let tracks=[];
-  const find=name=>{const n=norm(name);if(!n)return -1;
-    let i=tracks.findIndex(t=>norm(t.title)===n);
-    return i>=0?i:tracks.findIndex(t=>{const x=norm(t.title);return x.includes(n)||(x.length>3&&n.includes(x))})};
-  w.bind(SC.Widget.Events.READY,()=>w.getSounds(list=>{
-    tracks=list||[];
-    document.querySelectorAll('.covers figure').forEach(f=>{if(find(f.querySelector('figcaption').textContent)>=0)f.classList.add('ok')});
-  }));
-  document.querySelectorAll('.covers figure').forEach(f=>f.addEventListener('click',()=>{
-    const name=f.querySelector('figcaption').textContent,i=find(name);
-    if(i<0){window.open('https://soundcloud.com/bardlix/tracks?q='+encodeURIComponent(name),'_blank','noopener');return}
-    document.getElementById('musik').scrollIntoView({behavior:'smooth'});
-    w.skip(i);setTimeout(()=>w.play(),400);
-  }));
+  const url=name=>{const n=norm(name);return T[alias[n]||n]};
+  document.querySelectorAll('.covers figure').forEach(f=>{
+    const name=f.querySelector('figcaption').textContent;
+    if(url(name))f.classList.add('ok');
+    f.addEventListener('click',()=>{
+      const u=url(name);
+      if(!u){window.open('https://soundcloud.com/search?q='+encodeURIComponent('bardlix '+name),'_blank','noopener');return}
+      document.getElementById('musik').scrollIntoView({behavior:'smooth'});
+      w.load(u,{auto_play:true,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true});
+    });
+  });
+  document.getElementById('showall').addEventListener('click',e=>{e.preventDefault();
+    w.load('https://soundcloud.com/bardlix',{auto_play:false,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true})});
 })();
 </script>
 </body>
