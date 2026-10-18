@@ -98,6 +98,16 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   <h2>Artwork</h2>
   <h3>Cover art</h3>
   <div class="covers">
+    <figure data-sc="https://soundcloud.com/bardlix/05-dark-frequency"><img src="assets/covers/dark-frequency.webp" alt="Cover art: 05. DARK FREQUENCY" loading="lazy" width="480" height="480"><figcaption>05. DARK FREQUENCY</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/04-lose-control"><img src="assets/covers/lose-control-04.webp" alt="Cover art: 04. LOSE CONTROL" loading="lazy" width="480" height="480"><figcaption>04. LOSE CONTROL</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/03-system-error"><img src="assets/covers/system-error.webp" alt="Cover art: 03. SYSTEM ERROR" loading="lazy" width="480" height="480"><figcaption>03. SYSTEM ERROR</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/02-acid-fever"><img src="assets/covers/acid-fever.webp" alt="Cover art: 02. ACID FEVER" loading="lazy" width="480" height="480"><figcaption>02. ACID FEVER</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/01-no-mercy"><img src="assets/covers/no-mercy.webp" alt="Cover art: 01. NO MERCY" loading="lazy" width="480" height="480"><figcaption>01. NO MERCY</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/after_dark"><img src="assets/covers/after-dark-neon.webp" alt="Cover art: AFTER_DARK" loading="lazy" width="480" height="480"><figcaption>AFTER_DARK</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/body-talk"><img src="assets/covers/body-talk.webp" alt="Cover art: BODY TALK" loading="lazy" width="480" height="480"><figcaption>BODY TALK</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/bad-habit"><img src="assets/covers/bad-habit.webp" alt="Cover art: BAD HABIT" loading="lazy" width="480" height="480"><figcaption>BAD HABIT</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/dont-stop"><img src="assets/covers/dont-stop.webp" alt="Cover art: DON’T STOP" loading="lazy" width="480" height="480"><figcaption>DON’T STOP</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/get-low"><img src="assets/covers/get-low.webp" alt="Cover art: GET LOW" loading="lazy" width="480" height="480"><figcaption>GET LOW</figcaption></figure>
     <figure><img src="assets/covers/beneath-the-blue.webp" alt="Cover art: Beneath the Blue" loading="lazy" width="480" height="480"><figcaption>Beneath the Blue</figcaption></figure>
     <figure><img src="assets/covers/floating-all-day.webp" alt="Cover art: Floating All Day" loading="lazy" width="480" height="480"><figcaption>Floating All Day</figcaption></figure>
     <figure><img src="assets/covers/love-is-a-drug.webp" alt="Cover art: LOVE IS A DRUG" loading="lazy" width="480" height="480"><figcaption>LOVE IS A DRUG</figcaption></figure>
@@ -219,9 +229,9 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   const url=name=>{const n=norm(name);return T[alias[n]||n]};
   document.querySelectorAll('.covers figure').forEach(f=>{
     const name=f.querySelector('figcaption').textContent;
-    if(url(name))f.classList.add('ok');
+    if(f.dataset.sc||url(name))f.classList.add('ok');
     f.addEventListener('click',()=>{
-      const u=url(name);
+      const u=f.dataset.sc||url(name);
       if(!u){window.open('https://soundcloud.com/search?q='+encodeURIComponent('bardlix '+name),'_blank','noopener');return}
       document.getElementById('musik').scrollIntoView({behavior:'smooth'});
       w.load(u,{auto_play:true,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true});
