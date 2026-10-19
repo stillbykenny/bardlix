@@ -39,7 +39,8 @@ p{color:#c3cadf;max-width:62ch;margin-bottom:14px}
 .card:hover{border-color:rgba(255,106,26,.5);transform:translateY(-4px)}
 .card .ic{font-size:1.6rem;margin-bottom:10px}
 .card h4{margin-bottom:6px;font-size:1.05rem}
-.card .sub{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.steps{display:flex;flex-direction:column;gap:28px}.step{display:flex;align-items:center;gap:32px;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.25s}.step:hover{border-color:rgba(255,106,26,.5)}.step.flip{flex-direction:row-reverse}.step img{width:46%;height:320px;object-fit:cover;object-position:center 25%;display:block}.step .txt{flex:1;padding:28px 32px}.step .ic{font-size:1.6rem;margin-bottom:8px}.step h4{font-size:1.25rem;margin-bottom:6px}.step p{margin:0;font-size:.95rem}@media(max-width:700px){.step,.step.flip{flex-direction:column;gap:0}.step img{width:100%;height:auto;aspect-ratio:4/3}.step .txt{padding:22px}}
+.card .sub,.step .sub{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
 .card p{font-size:.92rem;margin:0;color:var(--muted)}
 iframe{width:100%;border:0;border-radius:14px;background:var(--panel)}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.chips span{padding:6px 16px;border:1px solid var(--line);border-radius:999px;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:var(--blue)}
@@ -82,10 +83,10 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 
 <section id="process" class="reveal">
   <h2>Behind the Sound</h2>
-  <div class="grid">
-    <div class="card"><div class="ic">🎹</div><h4>The Creative Studio</h4><div class="sub">FL Studio &amp; Logic Pro</div><p>From the first spark of inspiration to the final mix. Exploring melodies, building powerful rhythms and shaping unique electronic soundscapes using FL Studio and Logic Pro. Every track is a new creative adventure.</p></div>
-    <div class="card"><div class="ic">🤖</div><h4>AI Meets Creativity</h4><div class="sub">Human Vision. Endless Possibilities.</div><p>AI opens new doors to musical creativity. From unexpected sounds and vocal ideas to entirely new musical directions, I combine emerging technology with my own artistic vision to push creative boundaries.</p></div>
-    <div class="card"><div class="ic">🎧</div><h4>From Studio to Dancefloor</h4><div class="sub">AlphaTheta XDJ-AZ</div><p>Music comes alive behind the decks. With the professional AlphaTheta XDJ-AZ DJ system, I bring my own productions together with carefully selected tracks, creating energetic mixes, seamless transitions and unforgettable musical journeys.</p></div>
+  <div class="steps">
+    <div class="step flip"><img src="assets/process-studio.webp" alt="The Creative Studio" loading="lazy"><div class="txt"><h4>The Creative Studio</h4><div class="sub">FL Studio &amp; Logic Pro</div><p>From the first spark of inspiration to the final mix. Exploring melodies, building powerful rhythms and shaping unique electronic soundscapes using FL Studio and Logic Pro. Every track is a new creative adventure.</p></div></div>
+    <div class="step"><img src="assets/process-ai.webp" alt="AI Meets Creativity" loading="lazy"><div class="txt"><h4>AI Meets Creativity</h4><div class="sub">Human Vision. Endless Possibilities.</div><p>AI opens new doors to musical creativity. From unexpected sounds and vocal ideas to entirely new musical directions, I combine emerging technology with my own artistic vision to push creative boundaries.</p></div></div>
+    <div class="step flip"><img src="assets/process-dancefloor.webp" alt="From Studio to Dancefloor" loading="lazy"><div class="txt"><h4>From Studio to Dancefloor</h4><div class="sub">AlphaTheta XDJ-AZ</div><p>Music comes alive behind the decks. With the professional AlphaTheta XDJ-AZ DJ system, I bring my own productions together with carefully selected tracks, creating energetic mixes, seamless transitions and unforgettable musical journeys.</p></div></div>
   </div>
 </section>
 
