@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BARDLIX – Electronic Music Producer & DJ</title>
-<meta name="description" content="Bardlix – Human ideas. AI amplified. Trance, Deep House and EDM producer and DJ. Listen on SoundCloud.">
+<title>BARDLIX – Electronic Music Artist</title>
+<meta name="description" content="Bardlix – Human ideas. AI amplified. Electronic music artist – Trance, Deep House and EDM. Listen on SoundCloud.">
 <meta property="og:title" content="BARDLIX – Human ideas. AI amplified.">
-<meta property="og:description" content="Electronic music · Producer · DJ">
+<meta property="og:description" content="Electronic music artist">
 <meta property="og:image" content="https://bardlix.com/assets/banner.webp">
 <meta property="og:url" content="https://bardlix.com/">
 <meta name="theme-color" content="#05060d">
@@ -22,6 +22,7 @@ nav ul{display:flex;gap:26px;list-style:none;font-size:.78rem;letter-spacing:.2e
 nav ul a:hover{color:var(--orange)}
 .hero{margin-top:52px;position:relative}
 .hero img{width:100%;display:block;aspect-ratio:2000/754;object-fit:cover;min-height:240px}
+.hero-btn{display:none;position:absolute;z-index:2;top:60%;height:8.2%;border-radius:10px;transition:.25s}.hero-btn:hover,.hero-btn:focus-visible{box-shadow:0 0 28px rgba(255,106,26,.55);background:rgba(255,255,255,.06)}@media(min-width:640px){.hero-btn{display:block}}
 .hero::after{content:"";position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(transparent,var(--bg))}
 section{max-width:1060px;margin:0 auto;padding:80px 6vw}
 h2{font-size:.8rem;letter-spacing:.4em;text-transform:uppercase;color:var(--orange);margin-bottom:28px}
@@ -38,6 +39,7 @@ p{color:#c3cadf;max-width:62ch;margin-bottom:14px}
 .card:hover{border-color:rgba(255,106,26,.5);transform:translateY(-4px)}
 .card .ic{font-size:1.6rem;margin-bottom:10px}
 .card h4{margin-bottom:6px;font-size:1.05rem}
+.card .sub{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
 .card p{font-size:.92rem;margin:0;color:var(--muted)}
 iframe{width:100%;border:0;border-radius:14px;background:var(--panel)}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.chips span{padding:6px 16px;border:1px solid var(--line);border-radius:999px;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:var(--blue)}
@@ -59,7 +61,9 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 </nav>
 
 <header class="hero" id="top">
-  <img src="assets/banner.webp" alt="Bardlix – DJ behind the decks in front of a festival crowd">
+  <img src="assets/banner.webp" alt="Bardlix – electronic music artist in front of a festival crowd">
+  <a class="hero-btn" href="#musik" style="left:49.6%;width:15.6%" aria-label="Explore the music"></a>
+  <a class="hero-btn" href="#om" style="left:66.6%;width:15%" aria-label="Meet Bardlix"></a>
 </header>
 
 <section class="tagline reveal">
@@ -68,19 +72,20 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 </section>
 
 <section id="om" class="reveal">
-  <h2>About</h2>
-  <h3>Producer. DJ. Idea machine.</h3>
-  <p>I'm Bardlix – an electronic music producer and DJ. I build my own beats in FL Studio and shape the ideas together with AI tools to reach sounds I wouldn't have found alone.</p>
-  <p>I make a mix of styles, mostly <b>Trance</b>, <b>Deep House</b> and <b>EDM</b> – with vocals in both English and Swedish. It's all built for the dance floor: heavy basslines, big drops and atmospheres that carry you from the first track to the last.</p>
+  <h2>Welcome to the world of Bardlix</h2>
+  <h3>Electronic music without boundaries.</h3>
+  <p>BARDLIX blends human creativity, modern music production and AI-powered innovation to explore new dimensions of electronic sound.</p>
+  <p>From emotional melodies to powerful dancefloor energy, every release is another chapter in an evolving musical journey.</p>
+  <p><b>Turn It Up. Feel the Energy. Enter BARDLIX.</b></p>
   <div class="chips"><span>Trance</span><span>Deep House</span><span>EDM</span><span>English</span><span>Svenska</span></div>
 </section>
 
 <section id="process" class="reveal">
-  <h2>Process</h2>
+  <h2>Behind the Sound</h2>
   <div class="grid">
-    <div class="card"><div class="ic">🎹</div><h4>FL Studio</h4><p>Every beat, melody and arrangement is made from scratch in FL Studio.</p></div>
-    <div class="card"><div class="ic">🤖</div><h4>AI as an amplifier</h4><p>AI is a creative tool for ideas and sound – the direction is always human.</p></div>
-    <div class="card"><div class="ic">🎧</div><h4>DJ-set</h4><p>My own tracks and energy built live, with the crowd as the engine.</p></div>
+    <div class="card"><div class="ic">🎹</div><h4>The Creative Studio</h4><div class="sub">FL Studio &amp; Logic Pro</div><p>From the first spark of inspiration to the final mix. Exploring melodies, building powerful rhythms and shaping unique electronic soundscapes using FL Studio and Logic Pro. Every track is a new creative adventure.</p></div>
+    <div class="card"><div class="ic">🤖</div><h4>AI Meets Creativity</h4><div class="sub">Human Vision. Endless Possibilities.</div><p>AI opens new doors to musical creativity. From unexpected sounds and vocal ideas to entirely new musical directions, I combine emerging technology with my own artistic vision to push creative boundaries.</p></div>
+    <div class="card"><div class="ic">🎧</div><h4>From Studio to Dancefloor</h4><div class="sub">AlphaTheta XDJ-AZ</div><p>Music comes alive behind the decks. With the professional AlphaTheta XDJ-AZ DJ system, I bring my own productions together with carefully selected tracks, creating energetic mixes, seamless transitions and unforgettable musical journeys.</p></div>
   </div>
 </section>
 
@@ -211,12 +216,12 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   </div>
 </section>
 
-<footer>© <span id="y"></span> BARDLIX · ELECTRONIC MUSIC · PRODUCER · DJ</footer>
+<footer>© <span id="y"></span> BARDLIX · ELECTRONIC MUSIC · ARTIST</footer>
 
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
 document.getElementById('y').textContent=new Date().getFullYear();
-const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:0,rootMargin:"0px 0px -8% 0px"});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 // Click a cover -> load and play that track in the SoundCloud player
