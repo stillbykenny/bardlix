@@ -56,6 +56,7 @@ nav .logo img{height:28px;display:block}
 .editing .fcard [contenteditable],.editing #featured h2{outline:1px dashed rgba(255,106,26,.55);outline-offset:3px;cursor:text;min-width:40px}.editing .fcard p:empty::before{content:attr(data-ph);color:var(--muted);opacity:.6}
 .pick{display:block;margin-top:10px;max-width:100%;padding:7px 10px;border-radius:10px;border:1px solid var(--orange);background:var(--bg);color:var(--text);font:inherit;font-size:.85rem}
 .fbtn{position:absolute;z-index:3;top:6px;padding:3px 8px;border-radius:999px;border:1px solid var(--orange);background:rgba(5,6,13,.85);color:var(--text);font-size:.68rem;letter-spacing:.08em;cursor:pointer}.fbtn.on{background:var(--orange);color:#000;font-weight:700}.fbtn.n{left:6px}.fbtn.h{right:6px}
+#playlists[hidden]{display:none}.plgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}.plcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:.25s}.plcard:hover{border-color:rgba(255,106,26,.6);transform:translateY(-4px)}.plcard img{width:100%;aspect-ratio:1;object-fit:cover;display:block}.plcard div{padding:14px 16px 16px}.plcard h4{font-size:1.05rem;line-height:1.3;margin-bottom:4px}.plcard span{display:block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}.plcard .pl{display:inline-block;padding:7px 16px;border-radius:999px;border:1px solid var(--orange);color:var(--text);font-size:.72rem;letter-spacing:.18em;margin:0}.plcard:hover .pl{background:var(--orange);color:#000}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
 footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78rem;letter-spacing:.2em;border-top:1px solid var(--line)}
 @media(max-width:640px){nav ul{gap:14px;font-size:.66rem;letter-spacing:.1em}nav .logo{letter-spacing:.2em;font-size:.8rem}section{padding:56px 6vw}.tagline p{letter-spacing:.2em}}
@@ -115,6 +116,12 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
     <a class="btn" href="#covers">Pick a track</a>
     <a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">Follow on SoundCloud</a>
   </div>
+</section>
+
+<section id="playlists" class="reveal" hidden>
+  <h2>Playlists</h2>
+  <h3>Full sets &amp; series</h3>
+  <div class="plgrid" id="plgrid"></div>
 </section>
 
 <section id="covers" class="reveal">
@@ -268,6 +275,11 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   const w=SC.Widget(document.getElementById('scp'));
   const tap=document.getElementById('tap');let playing=false;
   w.bind(SC.Widget.Events.PLAY,()=>{playing=true;tap.hidden=true});
+  const play=u=>{document.getElementById('musik').scrollIntoView({behavior:'smooth'});
+    tap.hidden=true;playing=false;
+    w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>w.play()});
+    setTimeout(()=>{if(!playing)tap.hidden=false},3500)};
+  window.__bxPlay=play;
   const url=name=>{const n=norm(name);return T[alias[n]||n]};
   document.querySelectorAll('.covers figure').forEach(f=>{
     const name=f.querySelector('figcaption').textContent;
@@ -276,10 +288,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       if(document.body.classList.contains('editing'))return;
       const u=f.dataset.sc||url(name);
       if(!u){window.open('https://soundcloud.com/search?q='+encodeURIComponent('bardlix '+name),'_blank','noopener');return}
-      document.getElementById('musik').scrollIntoView({behavior:'smooth'});
-      tap.hidden=true;playing=false;
-      w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>w.play()});
-      setTimeout(()=>{if(!playing)tap.hidden=false},3500);
+      play(u);
     });
   });
 })();
@@ -364,6 +373,19 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     feat=o||{};if(edit){try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d)feat=d}catch(e){}}
     render();if(edit){const w=setInterval(()=>{if(document.body.classList.contains('editing')){clearInterval(w);addBtns();render()}},200);sec.hidden=false}});
   if(edit)document.addEventListener('click',e=>{if(e.target.id==='edreset')try{localStorage.removeItem(KEY)}catch(x){}},true);
+})();
+
+// Playlists section (from playlists.json)
+(function(){
+  const sec=document.getElementById('playlists'),grid=document.getElementById('plgrid');if(!sec)return;
+  fetch('playlists.json',{cache:'no-cache'}).then(r=>r.ok?r.json():[]).catch(()=>[]).then(list=>{
+    if(!list.length)return;
+    list.forEach(p=>{const c=document.createElement('article');c.className='plcard';
+      c.innerHTML='<img alt="" loading="lazy" width="480" height="480"><div><h4></h4><span></span><b class="pl">▶ Play</b></div>';
+      const im=c.querySelector('img');im.src='assets/playlists/'+p.cover+'.jpg';im.alt='Playlist cover: '+p.title;
+      c.querySelector('h4').textContent=p.title;c.querySelector('span').textContent=p.tracks+' tracks';
+      c.onclick=()=>window.__bxPlay&&window.__bxPlay(p.url);grid.appendChild(c)});
+    sec.hidden=false});
 })();
 </script>
 </body>
