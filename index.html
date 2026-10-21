@@ -48,6 +48,7 @@ p b{color:var(--text)}
 .covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}.covers figure{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1}.covers img{width:100%;height:100%;object-fit:cover;display:block;transition:.4s}.covers figure:hover img{transform:scale(1.08)}.covers figcaption{position:absolute;inset:auto 0 0 0;padding:26px 10px 8px;font-size:.78rem;background:linear-gradient(transparent,rgba(0,0,0,.85));opacity:0;transition:.3s}.covers figure:hover figcaption{opacity:1}
 nav .logo img{height:28px;display:block}
 .covers figure{cursor:pointer}.covers figure.ok::before{content:"▶";position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);width:46px;height:46px;border-radius:50%;background:var(--orange);color:#000;display:grid;place-items:center;font-size:16px;padding-left:3px;opacity:0;transition:.3s}.covers figure.ok:hover::before{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.tap{margin:14px 0 0;padding:10px 14px;border:1px solid var(--orange);border-radius:12px;color:var(--text);font-size:.9rem;text-align:center;animation:tp 1.4s ease-in-out infinite}.tap[hidden]{display:none}@keyframes tp{50%{box-shadow:0 0 18px rgba(255,106,26,.55)}}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
 footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78rem;letter-spacing:.2em;border-top:1px solid var(--line)}
 @media(max-width:640px){nav ul{gap:14px;font-size:.66rem;letter-spacing:.1em}nav .logo{letter-spacing:.2em;font-size:.8rem}section{padding:56px 6vw}.tagline p{letter-spacing:.2em}}
@@ -94,6 +95,7 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   <h2>Music</h2>
   <iframe id="scp" height="450" scrolling="no" allow="autoplay" loading="lazy"
     src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bardlix/someday-is-today&color=%23ff6a1a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
+  <p id="tap" class="tap" hidden>▶ Tap play in the player to start the song</p>
   <div class="links" style="margin-top:22px">
     <a class="btn" href="#covers">Pick a track</a>
     <a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">Follow on SoundCloud</a>
@@ -243,6 +245,8 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   const T={};
   "Dance With Myself|dance-with-myself;HEY STUPID|hey-stupid;Higher Than Tonight|higher-than-tonight;Lose control|lose-control;FEEL ALIVE|feel-alive;AFTER DARK|after-dark;No Sleep|no-sleep;Lost, Can You Find Me|lost-can-you-find-me;FLY AWAY|fly-away;SHOW ME|show-me;Sunday Netflix & Chill|sunday-netflix-chill;MAKE LOVE NOT WAR|make-love-not-war;HEART OVER POWER|heart-over-power;Six Six Six - EDM|six-six-six-edm;Don’t Wake the Neighbors|dont-wake-the-neighbors;Who’s Looking Back|whos-looking-back;KNIGHTVISION|knightvision;Kaleidoscope|kaleidoscope;After work|after-work;I Wanna Party|i-wanna-party;WHEN YOU’RE SOBER|when-youre-sober;Lost in Love & Music|lost-in-love-music;Six Shots of Goodbye|six-shots-of-goodbye;Sea of Shades|sea-of-shades;AYIA NAPA NIGHTS|ayia-napa-nights;Kyss mig fel|kyss-mig-fel;Broken Trust Road|broken-trust-road;Live Your Dream|live-your-dream;This is Paradise|this-is-paradise;Don´t you worry|don-t-you-worry;Push it Harder|push-it-harder;Feel the Ecstasy|feel-the-ecstasy;LIGHT Me Up|light-me-up;Lose Control Tonight|lose-control-tonight;Huvudrollen|huvudrollen;Var det vi?|var-det-vi;Feed Me More|feed-me-more;Stay with me|stay-with-me;LIGHT IT UP TONIGH|light-it-up-tonigh;Kvarteret Fryser|kvarteret-fryser;Betongen Pratar|betongen-pratar;Hon är allt jag inte får|hon-aer-allt-jag-inte-far;Type It, Delete It|type-it-delete-it;March of the Little Hearts|march-of-the-little-hearts;Dragon Rodeo in Hellfire Dust|dragon-rodeo-in-hellfire-1;Clap Clap Calp|clap-clap-calp;Blinded By The Sun|blinded-by-the-sun;Jag är vild och fri|jag-aer-vild-och-fri;Let it Snow!|let-it-snow;Golden Sky|golden-sky;Give me|give-me;In A Flash|in-a-flash;Life Feels Alive|life-feels-alive;Vart ska jag gå|vart-ska-jag-ga;Sommar på repeat|sommar-pa-repeat;Dissolve The Signal|dissolve-the-signal;Jungle Hearts (Turn It Into Gold)|jungle-hearts-turn-it-into;Moonlocked|moonlocked;Below the Silent Blue|below-the-silent-blue;Morning Dance Cat|morning-dance-cat-1;When The Bass Breathes|when-the-bass-breathes;Pick It Up, Fool!|pick-it-up-fool;Filter Lies|filter-lies;Summer Collision|summer-collision;Bass Saves Us|bass-saves-us;Children of Tomorrow|children-of-tomorrow;DON’T RIDE IN FLIP-FLOPS|dont-ride-in-flip-flops;Harley Heart|harley-heart;JUMP WITH ME|jump-with-me;Lost Frequency|lost-frequency;Lucid Dreaming|lucid-dreaming;Puppets on a String|puppets-on-a-string;Push it Harder|push-it-harder;Sirens In Our Blood|sirens-in-our-blood;This is Paradise|this-is-paradise;Touch the Sky|touch-the-sky;Vi kan inte sluta|vi-kan-inte-sluta;WHEN YOU’RE SOBER|when-youre-sober;Who’s Looking Back|whos-looking-back;Jordgubbslppar|jordgubbslppar;Dancing With My Future Self|dancing-with-my-future-self;Beneath the Blue|beneath-the-blue;Floating All Day|floating-all-day;LOVE IS A DRUG|love-is-a-drug;Just Float Away|just-float-away;TE AMO|te-amo;Sola mi|sola-mi;LOVE YOU LIKE THE SUN|love-you-like-the-sun;NAKED AT MIDNIGHT|naked-at-midnight;Hon trodde hon var ensam|hon-trodde-hon-var-ensam;Up Up Up|up-up-up;Eyes wide shut,|eyes-wide-shut;Coconut Sun|coconut-sun;Live Your Dream|live-your-dream;Don’t Wake the Neighbors|dont-wake-the-neighbors;HEY STUPID|hey-stupid;Little Spider, Climb Again|little-spider-climb-again".split(';').forEach(x=>{const [n,u]=x.split('|');T[norm(n)]='https://soundcloud.com/bardlix/'+u});
   const w=SC.Widget(document.getElementById('scp'));
+  const tap=document.getElementById('tap');let playing=false;
+  w.bind(SC.Widget.Events.PLAY,()=>{playing=true;tap.hidden=true});
   const url=name=>{const n=norm(name);return T[alias[n]||n]};
   document.querySelectorAll('.covers figure').forEach(f=>{
     const name=f.querySelector('figcaption').textContent;
@@ -251,7 +255,9 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       const u=f.dataset.sc||url(name);
       if(!u){window.open('https://soundcloud.com/search?q='+encodeURIComponent('bardlix '+name),'_blank','noopener');return}
       document.getElementById('musik').scrollIntoView({behavior:'smooth'});
-      w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true});
+      tap.hidden=true;playing=false;
+      w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>w.play()});
+      setTimeout(()=>{if(!playing)tap.hidden=false},3500);
     });
   });
 })();
