@@ -51,6 +51,9 @@ nav .logo img{height:28px;display:block}
 .tap{margin:14px 0 0;padding:10px 14px;border:1px solid var(--orange);border-radius:12px;color:var(--text);font-size:.9rem;text-align:center;animation:tp 1.4s ease-in-out infinite}.tap[hidden]{display:none}@keyframes tp{50%{box-shadow:0 0 18px rgba(255,106,26,.55)}}
 .covers figure.sortable-chosen{cursor:grabbing}.editing .covers figure{cursor:grab;outline:1px dashed rgba(255,106,26,.5)}.editing .covers figure::before{display:none!important}.editing .covers figcaption{opacity:1}.sortable-ghost{opacity:.3}
 .edbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:12px 16px;background:rgba(5,6,13,.95);border-top:1px solid var(--orange);font-size:.85rem}.edbar button{padding:9px 18px;border-radius:999px;border:1px solid var(--orange);background:transparent;color:var(--text);font:inherit;letter-spacing:.1em;cursor:pointer}.edbar .go{background:var(--orange);color:#000;font-weight:600}.edbar span{color:var(--muted)}
+#featured[hidden]{display:none}.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}.fcard{display:flex;gap:18px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;cursor:pointer;transition:.25s}.fcard:hover{border-color:rgba(255,106,26,.6);transform:translateY(-3px)}.fcard[hidden]{display:none}.fcard img{width:132px;height:132px;border-radius:12px;object-fit:cover;flex:none}.fcard .lab{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}.fcard h4{font-size:1.25rem;line-height:1.25;margin-bottom:6px}.fcard p{font-size:.9rem;color:var(--muted);margin:0 0 12px}.fcard .pl{display:inline-block;padding:8px 18px;border-radius:999px;border:1px solid var(--orange);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase}.fcard:hover .pl{background:var(--orange);color:#000}
+@media(max-width:480px){.fcard img{width:96px;height:96px}.fcard{gap:14px;padding:14px}}
+.fbtn{position:absolute;z-index:3;top:6px;padding:3px 8px;border-radius:999px;border:1px solid var(--orange);background:rgba(5,6,13,.85);color:var(--text);font-size:.68rem;letter-spacing:.08em;cursor:pointer}.fbtn.on{background:var(--orange);color:#000;font-weight:700}.fbtn.n{left:6px}.fbtn.h{right:6px}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
 footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78rem;letter-spacing:.2em;border-top:1px solid var(--line)}
 @media(max-width:640px){nav ul{gap:14px;font-size:.66rem;letter-spacing:.1em}nav .logo{letter-spacing:.2em;font-size:.8rem}section{padding:56px 6vw}.tagline p{letter-spacing:.2em}}
@@ -90,6 +93,14 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
     <div class="step flip"><img src="assets/process-studio.webp" alt="The Creative Studio" loading="lazy"><div class="txt"><h4>The Creative Studio</h4><div class="sub">FL Studio &amp; Logic Pro</div><p>From the first spark of inspiration to the final mix. Exploring melodies, building powerful rhythms and shaping unique electronic soundscapes using FL Studio and Logic Pro. Every track is a new creative adventure.</p></div></div>
     <div class="step"><img src="assets/process-ai.webp" alt="AI Meets Creativity" loading="lazy"><div class="txt"><h4>AI Meets Creativity</h4><div class="sub">Human Vision. Endless Possibilities.</div><p>AI opens new doors to musical creativity. From unexpected sounds and vocal ideas to entirely new musical directions, I combine emerging technology with my own artistic vision to push creative boundaries.</p></div></div>
     <div class="step flip"><img src="assets/process-dancefloor.webp" alt="From Studio to Dancefloor" loading="lazy"><div class="txt"><h4>From Studio to Dancefloor</h4><div class="sub">AlphaTheta XDJ-AZ</div><p>Music comes alive behind the decks. With the professional AlphaTheta XDJ-AZ DJ system, I bring my own productions together with carefully selected tracks, creating energetic mixes, seamless transitions and unforgettable musical journeys.</p></div></div>
+  </div>
+</section>
+
+<section id="featured" class="reveal" hidden>
+  <h2>Featured</h2>
+  <div class="feat">
+    <article class="fcard" id="f-latest"></article>
+    <article class="fcard" id="f-highlight"></article>
   </div>
 </section>
 
@@ -286,7 +297,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     bar.innerHTML='<span>Edit mode – drag the covers to reorder</span><button class="go" id="edsave">Save order</button><button id="edreset">Reset</button><button id="edexit">Exit</button><span id="edmsg"></span>';
     document.body.appendChild(bar);
     const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js';
-    sc.onload=()=>{Sortable.create(box,{animation:150,ghostClass:'sortable-ghost',onEnd:()=>{try{localStorage.setItem(KEY,JSON.stringify(figs().map(slug)))}catch(e){}}});};
+    sc.onload=()=>{Sortable.create(box,{animation:150,filter:'.fbtn',preventOnFilter:false,ghostClass:'sortable-ghost',onEnd:()=>{try{localStorage.setItem(KEY,JSON.stringify(figs().map(slug)))}catch(e){}}});};
     document.head.appendChild(sc);
     document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
     const msg=t=>document.getElementById('edmsg').textContent=t;
@@ -294,10 +305,40 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       const txt=JSON.stringify(figs().map(slug),null,0);
       const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'application/json'}));a.download='order.json';document.body.appendChild(a);a.click();a.remove();
       if(navigator.clipboard)navigator.clipboard.writeText(txt).catch(()=>{});
-      msg('Saved order.json – send it to Claude to publish');};
+      const b=document.createElement('a');b.href=URL.createObjectURL(new Blob([window.__featJSON?window.__featJSON():'{}'],{type:'application/json'}));b.download='featured.json';document.body.appendChild(b);setTimeout(()=>{b.click();b.remove()},400);
+      msg('Saved order.json + featured.json – send both to Claude to publish');};
     document.getElementById('edreset').onclick=()=>{try{localStorage.removeItem(KEY)}catch(e){}location.reload()};
     document.getElementById('edexit').onclick=()=>{location.href=location.pathname};
   }
+})();
+
+// Featured: "Latest release" + "Highlight of the week" from featured.json (?edit buttons set them)
+(function(){
+  const sec=document.getElementById('featured');if(!sec)return;
+  const edit=/[?&]edit(=|&|$)/.test(location.search),KEY='bardlix_feat_draft';
+  const box=document.querySelector('.covers');
+  const slug=f=>f.querySelector('img').getAttribute('src').replace(/^.*\//,'').replace('.webp','');
+  let feat={};
+  const find=sl=>[...box.querySelectorAll('figure')].find(f=>slug(f)===sl);
+  const card=(id,label,sl,note)=>{const el=document.getElementById(id),f=sl&&find(sl);
+    if(!f){el.hidden=true;return}
+    el.hidden=false;const t=f.querySelector('figcaption').textContent;
+    el.innerHTML='<img src="'+f.querySelector('img').src+'" alt="'+t.replace(/"/g,'&quot;')+'"><div><div class="lab">'+label+'</div><h4></h4>'+(note?'<p></p>':'')+'<span class="pl">▶ Play</span></div>';
+    el.querySelector('h4').textContent=t;if(note)el.querySelector('p').textContent=note;
+    el.onclick=()=>{if(!document.body.classList.contains('editing'))f.click()}};
+  const render=()=>{card('f-latest','Latest release',feat.latest,'');card('f-highlight','Highlight of the week',feat.highlight,feat.note);
+    sec.hidden=document.getElementById('f-latest').hidden&&document.getElementById('f-highlight').hidden;
+    if(edit)box.querySelectorAll('figure').forEach(f=>{f.querySelector('.fn')&&f.querySelector('.fn').classList.toggle('on',slug(f)===feat.latest);f.querySelector('.fh')&&f.querySelector('.fh').classList.toggle('on',slug(f)===feat.highlight)})};
+  const addBtns=()=>box.querySelectorAll('figure').forEach(f=>{if(f.querySelector('.fbtn'))return;
+    const mk=(c,txt,fn)=>{const b=document.createElement('button');b.className='fbtn '+c;b.textContent=txt;b.onclick=e=>{e.stopPropagation();fn()};f.appendChild(b)};
+    mk('n fn','NEW',()=>{feat.latest=slug(f);save()});
+    mk('h fh','★',()=>{const n=prompt('Short text for Highlight of the week (optional):',feat.note||'');if(n===null)return;feat.highlight=slug(f);feat.note=n;save()})});
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(feat))}catch(e){}render()};
+  window.__featJSON=()=>JSON.stringify(feat,null,1);
+  fetch('featured.json',{cache:'no-cache'}).then(r=>r.ok?r.json():{}).catch(()=>({})).then(o=>{
+    feat=o||{};if(edit){try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d)feat=d}catch(e){}}
+    render();if(edit){const w=setInterval(()=>{if(document.body.classList.contains('editing')){clearInterval(w);addBtns();render()}},200);sec.hidden=false}});
+  if(edit)document.addEventListener('click',e=>{if(e.target.id==='edreset')try{localStorage.removeItem(KEY)}catch(x){}},true);
 })();
 </script>
 </body>
