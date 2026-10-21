@@ -93,7 +93,7 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 <section id="musik" class="reveal">
   <h2>Music</h2>
   <iframe id="scp" height="450" scrolling="no" allow="autoplay" loading="lazy"
-    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bardlix&color=%23ff6a1a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"></iframe>
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bardlix&color=%23ff6a1a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
   <div class="links" style="margin-top:22px">
     <a class="btn" href="#" id="showall">All tracks</a>
     <a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">Follow on SoundCloud</a>
@@ -251,11 +251,11 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       const u=f.dataset.sc||url(name);
       if(!u){window.open('https://soundcloud.com/search?q='+encodeURIComponent('bardlix '+name),'_blank','noopener');return}
       document.getElementById('musik').scrollIntoView({behavior:'smooth'});
-      w.load(u,{auto_play:true,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true});
+      w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true});
     });
   });
   document.getElementById('showall').addEventListener('click',e=>{e.preventDefault();
-    w.load('https://soundcloud.com/bardlix',{auto_play:false,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true})});
+    w.load('https://soundcloud.com/bardlix',{auto_play:false,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true})});
 })();
 </script>
 </body>
