@@ -57,6 +57,11 @@ nav .logo img{height:28px;display:block}
 .pick{display:block;margin-top:10px;max-width:100%;padding:7px 10px;border-radius:10px;border:1px solid var(--orange);background:var(--bg);color:var(--text);font:inherit;font-size:.85rem}
 .fbtn{position:absolute;z-index:3;top:6px;padding:3px 8px;border-radius:999px;border:1px solid var(--orange);background:rgba(5,6,13,.85);color:var(--text);font-size:.68rem;letter-spacing:.08em;cursor:pointer}.fbtn.on{background:var(--orange);color:#000;font-weight:700}.fbtn.n{left:6px}.fbtn.h{right:6px}
 #playlists[hidden]{display:none}.plgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}.plcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:.25s}.plcard:hover{border-color:rgba(255,106,26,.6);transform:translateY(-4px)}.plcard img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;display:block}.plcard div{padding:14px 16px 16px}.plcard h4{font-size:1.05rem;line-height:1.3;margin-bottom:4px}.plcard span{display:block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}.plcard .pl{display:inline-block;padding:7px 16px;border-radius:999px;border:1px solid var(--orange);color:var(--text);font-size:.72rem;letter-spacing:.18em;margin:0}.plcard:hover .pl{background:var(--orange);color:#000}
+.radio{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(5,6,13,.94);backdrop-filter:blur(10px);border-top:1px solid rgba(255,106,26,.55)}.radio[hidden]{display:none}body.hasradio{padding-bottom:74px}
+.rdisc{width:46px;height:46px;flex:none;border-radius:50%;overflow:hidden;position:relative;border:2px solid #111;box-shadow:0 0 0 2px rgba(255,106,26,.6);background:#111 center/cover;animation:rspin 5s linear infinite;animation-play-state:paused}.rdisc::after{content:"";position:absolute;inset:0;margin:auto;width:10px;height:10px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 2px #222}.radio.on .rdisc{animation-play-state:running}@keyframes rspin{to{transform:rotate(360deg)}}
+.rinfo{flex:1;min-width:0;line-height:1.3}.rinfo b{display:block;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--orange)}.rinfo span{display:block;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.radio button{width:40px;height:40px;flex:none;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--text);font-size:1rem;cursor:pointer}.radio button:hover{border-color:var(--orange)}.radio #rplay{background:var(--orange);color:#000;border-color:var(--orange);font-size:1.1rem}.radio #rshuf.on{border-color:var(--orange);color:var(--orange)}.radio .rmin{width:30px;height:30px;font-size:.9rem}
+.radio.min{left:auto;right:12px;bottom:12px;padding:6px;border-radius:999px;border:1px solid rgba(255,106,26,.55)}.radio.min>:not(.rdisc):not(#rexp){display:none}.radio:not(.min) #rexp{display:none}.radio.min .rdisc{cursor:pointer}
+@media(max-width:480px){.radio{gap:8px;padding:8px 10px}.radio button{width:36px;height:36px}.rdisc{width:40px;height:40px}}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
 footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78rem;letter-spacing:.2em;border-top:1px solid var(--line)}
 @media(max-width:640px){nav ul{gap:14px;font-size:.66rem;letter-spacing:.1em}nav .logo{letter-spacing:.2em;font-size:.8rem}section{padding:56px 6vw}.tagline p{letter-spacing:.2em}}
@@ -260,6 +265,15 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 
 <footer>© <span id="y"></span> BARDLIX · ELECTRONIC MUSIC · ARTIST</footer>
 
+<div id="radio" class="radio" hidden>
+  <div class="rdisc" id="rdisc"></div>
+  <div class="rinfo"><b id="rtitle">Bardlix Radio</b><span id="rnow">Press play</span></div>
+  <button id="rprev" title="Previous" aria-label="Previous">⏮</button>
+  <button id="rplay" title="Play / pause" aria-label="Play or pause">▶</button>
+  <button id="rnext" title="Next" aria-label="Next">⏭</button>
+  <button id="rshuf" title="Shuffle" aria-label="Shuffle">⇄</button>
+  <button id="rmin" class="rmin" title="Minimise" aria-label="Minimise">▾</button>
+</div>
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
 document.getElementById('y').textContent=new Date().getFullYear();
@@ -279,7 +293,8 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     tap.hidden=true;playing=false;
     w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>w.play()});
     setTimeout(()=>{if(!playing)tap.hidden=false},3500)};
-  window.__bxPlay=play;
+  window.__bxPlay=play;window.__bxMainW=w;
+  w.bind(SC.Widget.Events.PLAY,()=>{window.__bxRadioPause&&window.__bxRadioPause()});
   const url=name=>{const n=norm(name);return T[alias[n]||n]};
   document.querySelectorAll('.covers figure').forEach(f=>{
     const name=f.querySelector('figcaption').textContent;
@@ -386,6 +401,37 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       c.querySelector('h4').textContent=p.title;c.querySelector('span').textContent=p.tracks+' tracks';
       c.onclick=()=>window.__bxPlay&&window.__bxPlay(p.url);grid.appendChild(c)});
     sec.hidden=false});
+})();
+
+// Bardlix Radio: plays a SoundCloud playlist (radio.json); pauses when a song is played in the main player and vice versa
+(function(){
+  const bar=document.getElementById('radio');if(!bar)return;
+  const edit=/[?&]edit(=|&|$)/.test(location.search),force=/[?&]radio(=|&|$)/.test(location.search);
+  fetch('radio.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).catch(()=>null).then(cfg=>{
+    if(!cfg||!cfg.url||edit||!(cfg.enabled||force))return;
+    document.getElementById('rtitle').textContent=cfg.title||'Bardlix Radio';
+    const fr=document.createElement('iframe');fr.id='rscp';fr.allow='autoplay';fr.title='Bardlix Radio player';
+    fr.style.cssText='position:fixed;left:-9999px;bottom:0;width:320px;height:166px;border:0';
+    fr.src='https://w.soundcloud.com/player/?url='+encodeURIComponent(cfg.url)+'&auto_play=false&visual=false&hide_related=true&show_comments=false&show_user=false';
+    document.body.appendChild(fr);
+    const w=SC.Widget(fr),E=SC.Widget.Events,$=id=>document.getElementById(id);
+    let playing=false,shuffle=false,total=0;
+    bar.hidden=false;document.body.classList.add('hasradio');
+    const ui=()=>{bar.classList.toggle('on',playing);$('rplay').textContent=playing?'❚❚':'▶'};
+    const now=()=>w.getCurrentSound(s=>{if(!s)return;$('rnow').textContent=s.title;
+      const a=(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');if(a)$('rdisc').style.backgroundImage='url('+a+')'});
+    w.bind(E.READY,()=>{w.getSounds(l=>{total=(l||[]).length});now()});
+    w.bind(E.PLAY,()=>{playing=true;ui();now();window.__bxMainW&&window.__bxMainW.pause()});
+    w.bind(E.PAUSE,()=>{playing=false;ui()});
+    w.bind(E.FINISH,()=>{if(shuffle&&total>1)setTimeout(()=>w.skip(Math.floor(Math.random()*total)),150)});
+    window.__bxRadioPause=()=>{if(playing)w.pause()};
+    $('rplay').onclick=()=>w.toggle();
+    $('rnext').onclick=()=>shuffle&&total>1?w.skip(Math.floor(Math.random()*total)):w.next();
+    $('rprev').onclick=()=>w.prev();
+    $('rshuf').onclick=()=>{shuffle=!shuffle;$('rshuf').classList.toggle('on',shuffle)};
+    $('rmin').onclick=()=>{bar.classList.add('min');document.body.classList.remove('hasradio')};
+    $('rdisc').onclick=()=>{if(bar.classList.contains('min')){bar.classList.remove('min');document.body.classList.add('hasradio')}};
+  });
 })();
 </script>
 </body>
