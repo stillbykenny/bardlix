@@ -70,11 +70,11 @@ nav .logo img{height:28px;display:block}
 .covers figure.now{outline:2px solid var(--orange);outline-offset:-2px}
 @property --g{syntax:'<color>';inherits:true;initial-value:#ff6a1a}
 :root{--g:#ff6a1a;transition:--g 1.4s ease}
-body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(70vw 55vh at 85% 105%,color-mix(in srgb,var(--g) 34%,transparent),transparent 70%),radial-gradient(60vw 50vh at 5% -5%,color-mix(in srgb,var(--g) 22%,transparent),transparent 70%)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(85vw 70vh at 85% 105%,color-mix(in srgb,var(--g) 58%,transparent),transparent 72%),radial-gradient(75vw 65vh at 5% -5%,color-mix(in srgb,var(--g) 42%,transparent),transparent 72%),radial-gradient(60vw 60vh at 50% 50%,color-mix(in srgb,var(--g) 14%,transparent),transparent 80%)}
 html.glow body::before{opacity:1}
-html.glow #scp{box-shadow:0 0 0 1px color-mix(in srgb,var(--g) 70%,transparent),0 12px 90px color-mix(in srgb,var(--g) 50%,transparent)}
+html.glow #scp{box-shadow:0 0 0 2px color-mix(in srgb,var(--g) 90%,transparent),0 0 40px color-mix(in srgb,var(--g) 55%,transparent),0 16px 130px color-mix(in srgb,var(--g) 75%,transparent)}
 #scp{transition:box-shadow 1.4s ease;border-radius:14px}
-html.glow .radio{border-top-color:var(--g)}html.glow .rdisc{box-shadow:0 0 0 2px var(--g),0 0 18px var(--g)}
+html.glow .radio{border-top-color:var(--g);box-shadow:0 -10px 50px color-mix(in srgb,var(--g) 45%,transparent)}html.glow .rdisc{box-shadow:0 0 0 2px var(--g),0 0 18px var(--g)}
 .covers figure.now{outline-color:var(--g,var(--orange))}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
 footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78rem;letter-spacing:.2em;border-top:1px solid var(--line)}
