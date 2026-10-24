@@ -67,6 +67,7 @@ nav .logo img{height:28px;display:block}
 .radio.min>.eq{display:none}
 .radio.min{left:auto;right:12px;bottom:12px;padding:6px;border-radius:999px;border:1px solid rgba(255,106,26,.55)}.radio.min>:not(.rdisc):not(#rexp){display:none!important}.radio:not(.min) #rexp{display:none}.radio.min .rdisc{cursor:pointer}
 @media(max-width:480px){.radio{gap:8px;padding:8px 10px}.radio button{width:36px;height:36px}.rdisc{width:40px;height:40px}}
+.covers figure.now{outline:2px solid var(--orange);outline-offset:-2px}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
 footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78rem;letter-spacing:.2em;border-top:1px solid var(--line)}
 @media(max-width:640px){nav ul{gap:14px;font-size:.66rem;letter-spacing:.1em}nav .logo{letter-spacing:.2em;font-size:.8rem}section{padding:56px 6vw}.tagline p{letter-spacing:.2em}}
@@ -296,11 +297,21 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   const w=SC.Widget(document.getElementById('scp'));
   const tap=document.getElementById('tap');let playing=false;
   w.bind(SC.Widget.Events.PLAY,()=>{playing=true;tap.hidden=true});
-  const play=u=>{document.getElementById('musik').scrollIntoView({behavior:'smooth'});
+  let curUrl=decodeURIComponent((document.getElementById('scp').src.match(/url=([^&]*)/)||[])[1]||'');
+  const figUrl=f=>f.dataset.sc||url(f.querySelector('figcaption').textContent);
+  const mark=()=>document.querySelectorAll('.covers figure').forEach(f=>f.classList.toggle('now',!!curUrl&&figUrl(f)===curUrl));
+  const play=(u,noScroll)=>{if(!noScroll)document.getElementById('musik').scrollIntoView({behavior:'smooth'});
+    curUrl=u;mark();
     tap.hidden=true;playing=false;
     w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>w.play()});
     setTimeout(()=>{if(!playing)tap.hidden=false},3500)};
-  window.__bxPlay=play;window.__bxMainW=w;
+  window.__bxPlay=u=>play(u);window.__bxMainW=w;
+  // when a single song ends, continue with the next cover in gallery order (playlists advance on their own)
+  w.bind(SC.Widget.Events.FINISH,()=>{
+    if(!curUrl||curUrl.includes('/sets/'))return;
+    const figs=[...document.querySelectorAll('.covers figure')].filter(f=>!f.querySelector('.fbtn')||true);
+    const i=figs.findIndex(f=>figUrl(f)===curUrl);if(i<0)return;
+    for(let k=1;k<=figs.length;k++){const n=figs[(i+k)%figs.length],u=figUrl(n);if(u&&u!==curUrl){play(u,true);return}}});
   w.bind(SC.Widget.Events.PLAY,()=>{window.__bxRadioPause&&window.__bxRadioPause()});
   const url=name=>{const n=norm(name);return T[alias[n]||n]};
   document.querySelectorAll('.covers figure').forEach(f=>{
@@ -313,6 +324,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       play(u);
     });
   });
+  mark();
 })();
 
 // Cover order: order.json for everyone; ?edit = drag & drop mode (draft kept in this browser)
