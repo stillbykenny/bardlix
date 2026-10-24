@@ -68,6 +68,14 @@ nav .logo img{height:28px;display:block}
 .radio.min{left:auto;right:12px;bottom:12px;padding:6px;border-radius:999px;border:1px solid rgba(255,106,26,.55)}.radio.min>:not(.rdisc):not(#rexp){display:none!important}.radio:not(.min) #rexp{display:none}.radio.min .rdisc{cursor:pointer}
 @media(max-width:480px){.radio{gap:8px;padding:8px 10px}.radio button{width:36px;height:36px}.rdisc{width:40px;height:40px}}
 .covers figure.now{outline:2px solid var(--orange);outline-offset:-2px}
+@property --g{syntax:'<color>';inherits:true;initial-value:#ff6a1a}
+:root{--g:#ff6a1a;transition:--g 1.4s ease}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(70vw 55vh at 85% 105%,color-mix(in srgb,var(--g) 34%,transparent),transparent 70%),radial-gradient(60vw 50vh at 5% -5%,color-mix(in srgb,var(--g) 22%,transparent),transparent 70%)}
+html.glow body::before{opacity:1}
+html.glow #scp{box-shadow:0 0 0 1px color-mix(in srgb,var(--g) 70%,transparent),0 12px 90px color-mix(in srgb,var(--g) 50%,transparent)}
+#scp{transition:box-shadow 1.4s ease;border-radius:14px}
+html.glow .radio{border-top-color:var(--g)}html.glow .rdisc{box-shadow:0 0 0 2px var(--g),0 0 18px var(--g)}
+.covers figure.now{outline-color:var(--g,var(--orange))}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
 footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78rem;letter-spacing:.2em;border-top:1px solid var(--line)}
 @media(max-width:640px){nav ul{gap:14px;font-size:.66rem;letter-spacing:.1em}nav .logo{letter-spacing:.2em;font-size:.8rem}section{padding:56px 6vw}.tagline p{letter-spacing:.2em}}
@@ -288,6 +296,23 @@ document.getElementById('y').textContent=new Date().getFullYear();
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:0,rootMargin:"0px 0px -8% 0px"});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
+
+// Ambient glow: page lights up in the dominant colour of the playing cover
+(function(){
+  const cache={};
+  const pick=img=>{const c=document.createElement('canvas');c.width=c.height=32;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(img,0,0,32,32);
+    const d=x.getImageData(0,0,32,32).data,B=new Array(24).fill(0).map(()=>({w:0,r:0,g:0,b:0}));
+    for(let i=0;i<d.length;i+=4){const r=d[i]/255,g=d[i+1]/255,b=d[i+2]/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),v=mx,sat=mx?(mx-mn)/mx:0;if(v<.28||sat<.3)continue;
+      let h=mx===r?((g-b)/(mx-mn))%6:mx===g?(b-r)/(mx-mn)+2:(r-g)/(mx-mn)+4;h=(h*60+360)%360;const k=Math.floor(h/15),wt=sat*v*v;B[k].w+=wt;B[k].r+=r*wt;B[k].g+=g*wt;B[k].b+=b*wt}
+    const best=B.reduce((a,b)=>b.w>a.w?b:a);if(!best.w)return null;
+    const r=best.r/best.w,g=best.g/best.w,b=best.b/best.w,mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h=0;const dl=mx-mn;
+    if(dl){h=mx===r?((g-b)/dl)%6:mx===g?(b-r)/dl+2:(r-g)/dl+4;h=(h*60+360)%360}
+    return 'hsl('+Math.round(h)+' 85% 55%)'};
+  window.__bxGlow=src=>{if(!src)return;const apply=c=>{if(!c)return;document.documentElement.style.setProperty('--g',c);document.documentElement.classList.add('glow')};
+    if(cache[src])return apply(cache[src]);
+    const im=new Image();if(/^https?:/.test(src))im.crossOrigin='anonymous';im.onload=()=>{try{cache[src]=pick(im);apply(cache[src])}catch(e){}};im.src=src};
+})();
+
 // Click a cover -> load and play that track in the SoundCloud player
 (function(){
   const norm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');
@@ -312,7 +337,9 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     const figs=[...document.querySelectorAll('.covers figure')].filter(f=>!f.querySelector('.fbtn')||true);
     const i=figs.findIndex(f=>figUrl(f)===curUrl);if(i<0)return;
     for(let k=1;k<=figs.length;k++){const n=figs[(i+k)%figs.length],u=figUrl(n);if(u&&u!==curUrl){play(u,true);return}}});
-  w.bind(SC.Widget.Events.PLAY,()=>{window.__bxRadioPause&&window.__bxRadioPause()});
+  w.bind(SC.Widget.Events.PLAY,()=>{window.__bxRadioPause&&window.__bxRadioPause();
+    const f=[...document.querySelectorAll('.covers figure')].find(f=>figUrl(f)===curUrl);
+    if(f&&window.__bxGlow)window.__bxGlow(f.querySelector('img').getAttribute('src'))});
   const url=name=>{const n=norm(name);return T[alias[n]||n]};
   document.querySelectorAll('.covers figure').forEach(f=>{
     const name=f.querySelector('figcaption').textContent;
@@ -439,7 +466,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     let cur='';
     const ui=()=>{bar.classList.toggle('on',playing);$('rplay').textContent=playing?'❚❚':'▶';
       if(cur)$('rnow').textContent=(playing?'Now playing: ':'Paused: ')+cur};
-    const now=()=>w.getCurrentSound(s=>{if(!s)return;cur=s.title;if(playing||started)ui();
+    const now=()=>w.getCurrentSound(s=>{if(!s)return;cur=s.title;if(playing||started)ui();if(window.__bxGlow){const nm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');const g=[...document.querySelectorAll('.covers figure')].find(f=>nm(f.querySelector('figcaption').textContent).replace(/^\d+/,'')===nm(s.title).replace(/^\d+/,''));if(playing||started)window.__bxGlow(g?g.querySelector('img').getAttribute('src'):(s.artwork_url||'').replace('-large','-t200x200'))}
       const a=(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');if(a)$('rdisc').style.backgroundImage='url('+a+')'});
     w.bind(E.READY,()=>{w.getSounds(l=>{total=(l||[]).length});now()});
     w.bind(E.PLAY,()=>{playing=true;started=true;ui();now();window.__bxMainW&&window.__bxMainW.pause()});
