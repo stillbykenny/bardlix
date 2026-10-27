@@ -21,7 +21,7 @@ nav .logo{font-weight:800;letter-spacing:.35em;font-size:.95rem}
 nav ul{display:flex;gap:26px;list-style:none;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 nav ul a:hover{color:var(--orange)}
 .hero{margin-top:52px;position:relative}
-.hero img{width:100%;display:block;aspect-ratio:2000/754;object-fit:cover;min-height:240px}
+.herovid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75}.hero img{position:relative;mix-blend-mode:screen;width:100%;display:block;aspect-ratio:2000/754;object-fit:cover;min-height:240px}
 .hero-btn{display:none;position:absolute;z-index:2;top:60%;height:8.2%;border-radius:10px;transition:.25s}.hero-btn:hover,.hero-btn:focus-visible{box-shadow:0 0 28px rgba(255,106,26,.55);background:rgba(255,255,255,.06)}@media(min-width:640px){.hero-btn{display:block}}
 .hero::after{content:"";position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(transparent,var(--bg))}
 section{max-width:1060px;margin:0 auto;padding:80px 6vw}
@@ -90,6 +90,7 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 </nav>
 
 <header class="hero" id="top">
+  <video class="herovid" id="herovid" src="assets/video/hero-a.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
   <img src="assets/banner.webp" alt="Bardlix – electronic music artist in front of a festival crowd">
   <a class="hero-btn" href="#musik" style="left:49.6%;width:15.6%" aria-label="Explore the music"></a>
   <a class="hero-btn" href="#om" style="left:66.6%;width:15%" aria-label="Meet Bardlix"></a>
@@ -482,6 +483,14 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     $('rmin').onclick=()=>{bar.classList.add('min');document.body.classList.remove('hasradio')};
     $('rexp').onclick=$('rdisc').onclick=()=>{if(bar.classList.contains('min')){bar.classList.remove('min');document.body.classList.add('hasradio')}};
   });
+})();
+
+// Hero video loop: off for reduced-motion / data-saver, paused when scrolled out of view
+(function(){
+  const v=document.getElementById('herovid');if(!v)return;
+  const sv=navigator.connection&&navigator.connection.saveData;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||sv){v.remove();return}
+  new IntersectionObserver(e=>e.forEach(x=>{x.isIntersecting?v.play().catch(()=>{}):v.pause()}),{threshold:0}).observe(v);
 })();
 </script>
 </body>
