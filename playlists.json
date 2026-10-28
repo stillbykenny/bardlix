@@ -1,5 +1,17 @@
 [
  {
+  "title": "Bardlix - Trance Action",
+  "tracks": 31,
+  "cover": "trance-action",
+  "url": "https://soundcloud.com/bardlix/sets/dj-bardlix-trance-action"
+ },
+ {
+  "title": "Nordic Frequency",
+  "tracks": 17,
+  "cover": "nordic-frequency",
+  "url": "https://soundcloud.com/bardlix/sets/nordic-frequency"
+ },
+ {
   "title": "No Limits – Workout Techno Vol. 1",
   "tracks": 5,
   "cover": "no-limits",
@@ -16,11 +28,5 @@
   "tracks": 10,
   "cover": "uk-underground",
   "url": "https://soundcloud.com/bardlix/sets/bardlix-uk-underground-club"
- },
- {
-  "title": "Bardlix - Trance Action",
-  "tracks": 10,
-  "cover": "trance-action",
-  "url": "https://soundcloud.com/bardlix/sets/dj-bardlix-trance-action"
  }
 ]
