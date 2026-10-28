@@ -82,6 +82,7 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 .reveal{opacity:0;transform:translateY(24px);transition:1s}
 .reveal.in{opacity:1;transform:none}
 </style>
+<script data-goatcounter="https://bardlix.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <nav>
@@ -317,6 +318,20 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     const im=new Image();if(/^https?:/.test(src))im.crossOrigin='anonymous';im.onload=()=>{try{cache[src]=pick(im);apply(cache[src])}catch(e){}};im.src=src};
 })();
 
+
+// Analytics events (GoatCounter, private dashboard). Skipped in ?edit mode; ?edit also excludes this browser from counting.
+(function(){
+  const edit=/[?&]edit(=|&|$)/.test(location.search);
+  if(edit){try{localStorage.setItem('skipgc','t')}catch(e){}}
+  window.__bxCount=(path,title)=>{if(edit)return;try{if(window.goatcounter&&goatcounter.count)goatcounter.count({path:path,title:title||path,event:true})}catch(e){}};
+  document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a');if(!a)return;
+    const h=a.getAttribute('href')||'';
+    if(h.startsWith('mailto:'))window.__bxCount('click/email','Email');
+    else if(a.classList.contains('hero-btn'))window.__bxCount('click/hero-'+(a.getAttribute('aria-label')||'button'),a.getAttribute('aria-label')||'Hero button');
+    else if(h.includes('soundcloud.com'))window.__bxCount('click/soundcloud-link','SoundCloud link: '+(a.textContent||'').trim());
+    else if(h==='#covers')window.__bxCount('click/pick-a-track','Pick a track')},true);
+})();
+
 // Click a cover -> load and play that track in the SoundCloud player
 (function(){
   const norm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');
@@ -350,6 +365,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     if(f.dataset.sc||url(name))f.classList.add('ok');
     f.addEventListener('click',()=>{
       if(document.body.classList.contains('editing'))return;
+      window.__bxCount&&window.__bxCount('play/'+name,'Play: '+name);
       const u=f.dataset.sc||url(name);
       if(!u){window.open('https://soundcloud.com/search?q='+encodeURIComponent('bardlix '+name),'_blank','noopener');return}
       play(u);
@@ -416,7 +432,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       n.oninput=()=>{feat[k]=n.textContent.trim()||(d?undefined:'');if(!feat[k])delete feat[k];persist()};
       n.onclick=e=>e.stopPropagation();n.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();n.blur()}}})}
     if(edit)addPick(el,songKey,sl);
-    el.onclick=()=>{if(!document.body.classList.contains('editing'))f.click()}};
+    el.onclick=()=>{if(!document.body.classList.contains('editing')){window.__bxCount&&window.__bxCount('featured/'+labelDef,labelDef+': '+t);f.click()}}};
   const addPick=(el,key,cur)=>{const sel=document.createElement('select');sel.className='pick';
     const o0=document.createElement('option');o0.value='';o0.textContent='— choose song —';sel.appendChild(o0);
     [...box.querySelectorAll('figure')].forEach(g=>{const o=document.createElement('option');o.value=slug(g);o.textContent=g.querySelector('figcaption').textContent;if(o.value===cur)o.selected=true;sel.appendChild(o)});
@@ -449,7 +465,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       c.innerHTML='<img alt="" loading="lazy" width="480" height="480"><div><h4></h4><span></span><b class="pl">▶ Play</b></div>';
       const im=c.querySelector('img');im.src='assets/playlists/'+p.cover+'.jpg';im.alt='Playlist cover: '+p.title;
       c.querySelector('h4').textContent=p.title;c.querySelector('span').textContent=p.tracks+' tracks';
-      c.onclick=()=>window.__bxPlay&&window.__bxPlay(p.url);grid.appendChild(c)});
+      c.onclick=()=>{window.__bxCount&&window.__bxCount('playlist/'+p.title,'Playlist: '+p.title);window.__bxPlay&&window.__bxPlay(p.url)};grid.appendChild(c)});
     sec.hidden=false});
 })();
 
@@ -473,7 +489,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     const now=()=>w.getCurrentSound(s=>{if(!s)return;cur=s.title;if(playing||started)ui();if(window.__bxGlow){const nm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');const g=[...document.querySelectorAll('.covers figure')].find(f=>nm(f.querySelector('figcaption').textContent).replace(/^\d+/,'')===nm(s.title).replace(/^\d+/,''));if(playing||started)window.__bxGlow(g?g.querySelector('img').getAttribute('src'):(s.artwork_url||'').replace('-large','-t200x200'))}
       const a=(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');if(a)$('rdisc').style.backgroundImage='url('+a+')'});
     w.bind(E.READY,()=>{w.getSounds(l=>{total=(l||[]).length});now()});
-    w.bind(E.PLAY,()=>{playing=true;started=true;ui();now();window.__bxMainW&&window.__bxMainW.pause()});
+    w.bind(E.PLAY,()=>{if(!started)window.__bxCount&&window.__bxCount('radio/start','Radio started');playing=true;started=true;ui();now();window.__bxMainW&&window.__bxMainW.pause()});
     w.bind(E.PAUSE,()=>{playing=false;ui()});
     w.bind(E.FINISH,()=>{if(shuffle&&total>1)setTimeout(()=>w.skip(Math.floor(Math.random()*total)),150)});
     window.__bxRadioPause=()=>{if(playing)w.pause()};
