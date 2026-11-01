@@ -48,6 +48,9 @@ p b{color:var(--text)}
 .covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}.covers figure{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1}.covers img{width:100%;height:100%;object-fit:cover;display:block;transition:.4s}.covers figure:hover img{transform:scale(1.08)}.covers figcaption{position:absolute;inset:auto 0 0 0;padding:26px 10px 8px;font-size:.78rem;background:linear-gradient(transparent,rgba(0,0,0,.85));opacity:0;transition:.3s}.covers figure:hover figcaption{opacity:1}
 nav .logo img{height:28px;display:block}
 .covers figure{cursor:pointer}.covers figure.ok::before{content:"▶";position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);width:46px;height:46px;border-radius:50%;background:var(--orange);color:#000;display:grid;place-items:center;font-size:16px;padding-left:3px;opacity:0;transition:.3s}.covers figure.ok:hover::before{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.vol{display:flex;align-items:center;gap:10px;margin-top:14px;color:var(--text)}.vol .volr{width:min(260px,70%)}
+.volr{accent-color:var(--orange);cursor:pointer}.rvol{width:80px;flex:none}
+@media (hover:none){.vol,.rvol{display:none}}
 .tap{margin:14px 0 0;padding:10px 14px;border:1px solid var(--orange);border-radius:12px;color:var(--text);font-size:.9rem;text-align:center;animation:tp 1.4s ease-in-out infinite}.tap[hidden]{display:none}@keyframes tp{50%{box-shadow:0 0 18px rgba(255,106,26,.55)}}
 .covers figure.sortable-chosen{cursor:grabbing}.editing .covers figure{cursor:grab;outline:1px dashed rgba(255,106,26,.5)}.editing .covers figure::before{display:none!important}.editing .covers figcaption{opacity:1}.sortable-ghost{opacity:.3}
 .edbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:12px 16px;background:rgba(5,6,13,.95);border-top:1px solid var(--orange);font-size:.85rem}.edbar button{padding:9px 18px;border-radius:999px;border:1px solid var(--orange);background:transparent;color:var(--text);font:inherit;letter-spacing:.1em;cursor:pointer}.edbar .go{background:var(--orange);color:#000;font-weight:600}.edbar span{color:var(--muted)}
@@ -134,6 +137,7 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   <iframe id="scp" height="450" scrolling="no" allow="autoplay" loading="lazy"
     src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bardlix/someday-is-today&color=%23ff6a1a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
   <p id="tap" class="tap" hidden>▶ Tap play in the player to start the song</p>
+  <label class="vol"><span aria-hidden="true">🔊</span><input type="range" class="volr" min="0" max="100" step="1" value="80" aria-label="Volume"></label>
   <div class="links" style="margin-top:22px">
     <a class="btn" href="#covers">Pick a track</a>
     <a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">Follow on SoundCloud</a>
@@ -295,6 +299,7 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   <button id="rplay" title="Play / pause" aria-label="Play or pause">▶</button>
   <button id="rnext" title="Next" aria-label="Next">⏭</button>
   <button id="rshuf" title="Shuffle" aria-label="Shuffle">⇄</button>
+  <input type="range" class="volr rvol" min="0" max="100" step="1" value="80" aria-label="Radio volume">
   <button id="rmin" class="rmin" title="Minimise" aria-label="Minimise">▾</button>
 </div>
 <script src="https://w.soundcloud.com/player/api.js"></script>
@@ -334,6 +339,13 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     else if(h==='#covers')window.__bxCount('click/pick-a-track','Pick a track')},true);
 })();
 
+// Shared volume (main player + radio), remembered in this browser
+window.__bxVolW=[];
+window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolume(v)}catch(e){}});
+  document.querySelectorAll('.volr').forEach(r=>r.value=v);try{localStorage.setItem('bxvol',v)}catch(e){}};
+(function(){let v=80;try{const s=localStorage.getItem('bxvol');if(s!==null&&!isNaN(+s))v=Math.max(0,Math.min(100,+s))}catch(e){}
+  window.__bxVol=v;document.querySelectorAll('.volr').forEach(r=>{r.value=v;r.addEventListener('input',()=>window.__bxVolSet(+r.value))})})();
+
 // Click a cover -> load and play that track in the SoundCloud player
 (function(){
   const norm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');
@@ -349,9 +361,10 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   const play=(u,noScroll)=>{if(!noScroll)document.getElementById('musik').scrollIntoView({behavior:'smooth'});
     curUrl=u;mark();
     tap.hidden=true;playing=false;
-    w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>w.play()});
+    w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>{w.setVolume(window.__bxVol);w.play()}});
     setTimeout(()=>{if(!playing)tap.hidden=false},3500)};
   window.__bxPlay=u=>play(u);window.__bxMainW=w;
+  window.__bxVolW.push(w);w.bind(SC.Widget.Events.READY,()=>w.setVolume(window.__bxVol));
   // when a single song ends, continue with the next cover in gallery order (playlists advance on their own)
   w.bind(SC.Widget.Events.FINISH,()=>{
     if(!curUrl||curUrl.includes('/sets/'))return;
@@ -490,7 +503,8 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       if(cur)$('rnow').textContent=(playing?'Now playing: ':'Paused: ')+cur};
     const now=()=>w.getCurrentSound(s=>{if(!s)return;cur=s.title;if(playing||started)ui();if(window.__bxGlow){const nm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');const g=[...document.querySelectorAll('.covers figure')].find(f=>nm(f.querySelector('figcaption').textContent).replace(/^\d+/,'')===nm(s.title).replace(/^\d+/,''));if(playing||started)window.__bxGlow(g?g.querySelector('img').getAttribute('src'):(s.artwork_url||'').replace('-large','-t200x200'))}
       const a=(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');if(a)$('rdisc').style.backgroundImage='url('+a+')'});
-    w.bind(E.READY,()=>{w.getSounds(l=>{total=(l||[]).length});now()});
+    window.__bxVolW.push(w);
+    w.bind(E.READY,()=>{w.setVolume(window.__bxVol);w.getSounds(l=>{total=(l||[]).length});now()});
     w.bind(E.PLAY,()=>{if(!started)window.__bxCount&&window.__bxCount('radio/start','Radio started');playing=true;started=true;ui();now();window.__bxMainW&&window.__bxMainW.pause()});
     w.bind(E.PAUSE,()=>{playing=false;ui()});
     w.bind(E.FINISH,()=>{if(shuffle&&total>1)setTimeout(()=>w.skip(Math.floor(Math.random()*total)),150)});
