@@ -361,6 +361,7 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
   const mark=()=>document.querySelectorAll('.covers figure').forEach(f=>f.classList.toggle('now',!!curUrl&&figUrl(f)===curUrl));
   const play=(u,noScroll)=>{if(!noScroll)document.getElementById('musik').scrollIntoView({behavior:'smooth'});
     curUrl=u;mark();
+    document.getElementById('scp').style.height=u.includes('/sets/')?'340px':'';
     tap.hidden=true;playing=false;
     w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>{w.setVolume(window.__bxVol);w.play()}});
     setTimeout(()=>{if(!playing)tap.hidden=false},3500)};
