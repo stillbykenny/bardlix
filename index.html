@@ -529,7 +529,7 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
       w.load(u,{auto_play:true,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true,show_user:false,callback:()=>{w.setVolume(window.__bxVol);w.play();now()}});
       hintT=setTimeout(()=>{if(!playing)$('rnow').textContent='Tap ▶ to start the song'},3500)};
     if(pend)window.__bxRadioLoad(pend);
-    $('rplay').onclick=()=>w.toggle();
+    $('rplay').onclick=()=>playing?w.pause():w.play();
     $('rnext').onclick=()=>window.__bxIsSingle&&window.__bxIsSingle()?window.__bxStep(1):shuffle&&total>1?w.skip(Math.floor(Math.random()*total)):w.next();
     $('rprev').onclick=()=>window.__bxIsSingle&&window.__bxIsSingle()?window.__bxStep(-1):w.prev();
     $('rshuf').onclick=()=>{shuffle=!shuffle;$('rshuf').classList.toggle('on',shuffle)};
