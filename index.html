@@ -76,7 +76,7 @@ nav .logo img{height:28px;display:block}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(85vw 70vh at 85% 105%,color-mix(in srgb,var(--g) 58%,transparent),transparent 72%),radial-gradient(75vw 65vh at 5% -5%,color-mix(in srgb,var(--g) 42%,transparent),transparent 72%),radial-gradient(60vw 60vh at 50% 50%,color-mix(in srgb,var(--g) 14%,transparent),transparent 80%)}
 html.glow body::before{opacity:1}
 html.glow #scp{box-shadow:0 0 0 2px color-mix(in srgb,var(--g) 90%,transparent),0 0 40px color-mix(in srgb,var(--g) 55%,transparent),0 16px 130px color-mix(in srgb,var(--g) 75%,transparent)}
-#scp{transition:box-shadow 1.4s ease;border-radius:14px}
+#scp{transition:box-shadow 1.4s ease;border-radius:14px}.pwrap{position:relative}.pwrap iframe{display:block;width:100%}#pcov{position:absolute;left:0;top:0;width:166px;height:166px;object-fit:cover;pointer-events:none;border-radius:14px 0 0 14px}#pcov[hidden]{display:none}
 html.glow .radio{border-top-color:var(--g);box-shadow:0 -10px 50px color-mix(in srgb,var(--g) 45%,transparent)}html.glow .rdisc{box-shadow:0 0 0 2px var(--g),0 0 18px var(--g)}
 .covers figure.now{outline-color:var(--g,var(--orange))}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
@@ -134,8 +134,8 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 
 <section id="musik" class="reveal">
   <h2>Music</h2>
-  <iframe id="scp" height="450" scrolling="no" allow="autoplay" loading="lazy"
-    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bardlix/someday-is-today&color=%23ff6a1a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
+  <div class="pwrap"><iframe id="scp" height="166" scrolling="no" allow="autoplay" loading="lazy"
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bardlix/someday-is-today&color=%23ff6a1a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"></iframe><img id="pcov" alt="" hidden></div>
   <p id="tap" class="tap" hidden>▶ Tap play in the player to start the song</p>
   <label class="vol"><span aria-hidden="true">🔊</span><input type="range" class="volr" min="0" max="100" step="1" value="80" aria-label="Volume"></label>
   <div class="links" style="margin-top:22px">
@@ -386,9 +386,9 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
   const mark=()=>document.querySelectorAll('.covers figure').forEach(f=>f.classList.toggle('now',!!curUrl&&figUrl(f)===curUrl));
   const play=(u,noScroll)=>{if(!noScroll)document.getElementById('musik').scrollIntoView({behavior:'smooth'});
     curUrl=u;mark();
-    document.getElementById('scp').style.height=u.includes('/sets/')?'340px':'';
+    document.getElementById('scp').style.height=u.includes('/sets/')?'340px':'';document.getElementById('pcov').hidden=true;
     tap.hidden=true;playing=false;
-    w.load(u,{auto_play:true,color:'#ff6a1a',visual:true,show_comments:false,hide_related:true,callback:()=>{w.setVolume(window.__bxVol);w.play()}});
+    w.load(u,{auto_play:true,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true,callback:()=>{w.setVolume(window.__bxVol);w.play()}});
     setTimeout(()=>{if(!playing)tap.hidden=false},3500)};
   window.__bxPlay=u=>play(u);window.__bxMainW=w;
   window.__bxVolW.push(w);w.bind(SC.Widget.Events.READY,()=>w.setVolume(window.__bxVol));
@@ -400,6 +400,7 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
     for(let k=1;k<=figs.length;k++){const n=figs[(i+k)%figs.length],u=figUrl(n);if(u&&u!==curUrl){play(u,true);return}}});
   w.bind(SC.Widget.Events.PLAY,()=>{window.__bxRadioPause&&window.__bxRadioPause();
     const f=[...document.querySelectorAll('.covers figure')].find(f=>figUrl(f)===curUrl);
+    const pc=document.getElementById('pcov');if(f){pc.src=f.querySelector('img').getAttribute('src');pc.hidden=curUrl.includes('/sets/')}else pc.hidden=true;
     if(f&&window.__bxGlow)window.__bxGlow(f.querySelector('img').getAttribute('src'))});
   const url=name=>{const n=norm(name);return T[alias[n]||n]};
   document.querySelectorAll('.covers figure').forEach(f=>{
@@ -529,7 +530,7 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
     const ui=()=>{bar.classList.toggle('on',playing);$('rplay').textContent=playing?'❚❚':'▶';
       if(cur)$('rnow').textContent=(playing?'Now playing: ':'Paused: ')+cur};
     const now=()=>w.getCurrentSound(s=>{if(!s)return;cur=s.title;if(playing||started)ui();if(window.__bxGlow){const nm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');const g=[...document.querySelectorAll('.covers figure')].find(f=>nm(f.querySelector('figcaption').textContent).replace(/^\d+/,'')===nm(s.title).replace(/^\d+/,''));if(playing||started)window.__bxGlow(g?g.querySelector('img').getAttribute('src'):(s.artwork_url||'').replace('-large','-t200x200'))}
-      const a=(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');if(a)$('rdisc').style.backgroundImage='url('+a+')'});
+      const nm2=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'').replace(/^\d+/,'');const lf=[...document.querySelectorAll('.covers figure')].find(f=>nm2(f.querySelector('figcaption').textContent)===nm2(s.title));const a=lf?lf.querySelector('img').getAttribute('src'):(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');if(a)$('rdisc').style.backgroundImage='url('+a+')'});
     window.__bxVolW.push(w);
     w.bind(E.READY,()=>{w.setVolume(window.__bxVol);w.getSounds(l=>{total=(l||[]).length});now()});
     w.bind(E.PLAY,()=>{if(!started)window.__bxCount&&window.__bxCount('radio/start','Radio started');playing=true;started=true;ui();now();window.__bxMainW&&window.__bxMainW.pause()});
