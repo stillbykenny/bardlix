@@ -70,13 +70,11 @@ nav .logo img{height:28px;display:block}
 .radio.min>.eq{display:none}
 .radio.min{left:auto;right:12px;bottom:12px;padding:6px;border-radius:999px;border:1px solid rgba(255,106,26,.55)}.radio.min>:not(.rdisc):not(#rexp){display:none!important}.radio:not(.min) #rexp{display:none}.radio.min .rdisc{cursor:pointer}
 @media(max-width:480px){.radio{gap:8px;padding:8px 10px}.radio button{width:36px;height:36px}.rdisc{width:40px;height:40px}}
-.covers figure.now{outline:2px solid var(--orange);outline-offset:-2px}
+.covers figure.now{outline:3px solid var(--orange);outline-offset:-3px}.covers figure.now::after{content:"♪ Now playing";position:absolute;z-index:3;top:8px;left:8px;padding:4px 9px;border-radius:999px;background:var(--orange);color:#000;font-size:.68rem;font-weight:700;letter-spacing:.04em}.plcard.now{border-color:var(--orange);box-shadow:0 0 0 2px var(--orange)}.plcard.now .pl::before{content:"♪ Now playing – "}
 @property --g{syntax:'<color>';inherits:true;initial-value:#ff6a1a}
 :root{--g:#ff6a1a;transition:--g 1.4s ease}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(85vw 70vh at 85% 105%,color-mix(in srgb,var(--g) 58%,transparent),transparent 72%),radial-gradient(75vw 65vh at 5% -5%,color-mix(in srgb,var(--g) 42%,transparent),transparent 72%),radial-gradient(60vw 60vh at 50% 50%,color-mix(in srgb,var(--g) 14%,transparent),transparent 80%)}
 html.glow body::before{opacity:1}
-html.glow #scp{box-shadow:0 0 0 2px color-mix(in srgb,var(--g) 90%,transparent),0 0 40px color-mix(in srgb,var(--g) 55%,transparent),0 16px 130px color-mix(in srgb,var(--g) 75%,transparent)}
-#scp{transition:box-shadow 1.4s ease;border-radius:14px}.pwrap{position:relative}.pwrap iframe{display:block;width:100%}#pcov{position:absolute;left:0;top:0;width:166px;height:166px;object-fit:cover;pointer-events:none;border-radius:14px 0 0 14px}#pcov[hidden]{display:none}
 html.glow .radio{border-top-color:var(--g);box-shadow:0 -10px 50px color-mix(in srgb,var(--g) 45%,transparent)}html.glow .rdisc{box-shadow:0 0 0 2px var(--g),0 0 18px var(--g)}
 .covers figure.now{outline-color:var(--g,var(--orange))}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
@@ -91,7 +89,7 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
 <body>
 <nav>
   <a class="logo" href="#top"><img src="assets/logo.webp" alt="Bardlix"></a>
-  <ul><li><a href="#om">About</a></li><li><a href="#musik">Music</a></li><li><a href="#covers">Artwork</a></li><li><a href="#process">Process</a></li><li><a href="#kontakt">Contact</a></li></ul>
+  <ul><li><a href="#om">About</a></li><li><a href="#musik">Music</a></li><li><a href="#process">Process</a></li><li><a href="#kontakt">Contact</a></li></ul>
 </nav>
 
 <header class="hero" id="top">
@@ -132,17 +130,6 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   </div>
 </section>
 
-<section id="musik" class="reveal">
-  <h2>Music</h2>
-  <div class="pwrap"><iframe id="scp" height="166" scrolling="no" allow="autoplay" loading="lazy"
-    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bardlix/someday-is-today&color=%23ff6a1a&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"></iframe><img id="pcov" alt="" hidden></div>
-  <p id="tap" class="tap" hidden>▶ Tap play in the player to start the song</p>
-  <label class="vol"><span aria-hidden="true">🔊</span><input type="range" class="volr" min="0" max="100" step="1" value="80" aria-label="Volume"></label>
-  <div class="links" style="margin-top:22px">
-    <a class="btn" href="#covers">Pick a track</a>
-    <a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">Follow on SoundCloud</a>
-  </div>
-</section>
 
 <section id="playlists" class="reveal" hidden>
   <h2>Playlists</h2>
@@ -150,9 +137,10 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   <div class="plgrid" id="plgrid"></div>
 </section>
 
-<section id="covers" class="reveal">
-  <h2>Artwork</h2>
-  <h3>Cover art</h3>
+<section id="musik" class="reveal">
+  <h2>Music</h2>
+  <h3>Pick a song &ndash; it plays in the player at the bottom</h3>
+  <div class="links" style="margin:0 0 18px"><a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">Follow on SoundCloud</a></div>
   <div class="covers">
     <figure data-sc="https://soundcloud.com/bardlix/ung-vild"><img src="assets/covers/ung-vild.webp" alt="Cover art: Ung &amp; Vild" loading="lazy" width="480" height="480"><figcaption>Ung &amp; Vild</figcaption></figure>
     <figure data-sc="https://soundcloud.com/bardlix/why-dont-you-dance"><img src="assets/covers/why-dont-you-dance.webp" alt="Cover art: Why Don’t You Dance" loading="lazy" width="480" height="480"><figcaption>Why Don’t You Dance</figcaption></figure>
@@ -378,30 +366,21 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
   const alias={knithvision:'knightvision'};
   const T={};
   "Dance With Myself|dance-with-myself;HEY STUPID|hey-stupid;Higher Than Tonight|higher-than-tonight;Lose control|lose-control;FEEL ALIVE|feel-alive;AFTER DARK|after-dark;No Sleep|no-sleep;Lost, Can You Find Me|lost-can-you-find-me;FLY AWAY|fly-away;SHOW ME|show-me;Sunday Netflix & Chill|sunday-netflix-chill;MAKE LOVE NOT WAR|make-love-not-war;HEART OVER POWER|heart-over-power;Six Six Six - EDM|six-six-six-edm;Don’t Wake the Neighbors|dont-wake-the-neighbors;Who’s Looking Back|whos-looking-back;KNIGHTVISION|knightvision;Kaleidoscope|kaleidoscope;After work|after-work;I Wanna Party|i-wanna-party;WHEN YOU’RE SOBER|when-youre-sober;Lost in Love & Music|lost-in-love-music;Six Shots of Goodbye|six-shots-of-goodbye;Sea of Shades|sea-of-shades;AYIA NAPA NIGHTS|ayia-napa-nights;Kyss mig fel|kyss-mig-fel;Broken Trust Road|broken-trust-road;Live Your Dream|live-your-dream;This is Paradise|this-is-paradise;Don´t you worry|don-t-you-worry;Push it Harder|push-it-harder;Feel the Ecstasy|feel-the-ecstasy;LIGHT Me Up|light-me-up;Lose Control Tonight|lose-control-tonight;Huvudrollen|huvudrollen;Var det vi?|var-det-vi;Feed Me More|feed-me-more;Stay with me|stay-with-me;LIGHT IT UP TONIGH|light-it-up-tonigh;Kvarteret Fryser|kvarteret-fryser;Betongen Pratar|betongen-pratar;Hon är allt jag inte får|hon-aer-allt-jag-inte-far;Type It, Delete It|type-it-delete-it;March of the Little Hearts|march-of-the-little-hearts;Dragon Rodeo in Hellfire Dust|dragon-rodeo-in-hellfire-1;Clap Clap Calp|clap-clap-calp;Blinded By The Sun|blinded-by-the-sun;Jag är vild och fri|jag-aer-vild-och-fri;Let it Snow!|let-it-snow;Golden Sky|golden-sky;Give me|give-me;In A Flash|in-a-flash;Life Feels Alive|life-feels-alive;Vart ska jag gå|vart-ska-jag-ga;Sommar på repeat|sommar-pa-repeat;Dissolve The Signal|dissolve-the-signal;Jungle Hearts (Turn It Into Gold)|jungle-hearts-turn-it-into;Moonlocked|moonlocked;Below the Silent Blue|below-the-silent-blue;Morning Dance Cat|morning-dance-cat-1;When The Bass Breathes|when-the-bass-breathes;Pick It Up, Fool!|pick-it-up-fool;Filter Lies|filter-lies;Summer Collision|summer-collision;Bass Saves Us|bass-saves-us;Children of Tomorrow|children-of-tomorrow;DON’T RIDE IN FLIP-FLOPS|dont-ride-in-flip-flops;Harley Heart|harley-heart;JUMP WITH ME|jump-with-me;Lost Frequency|lost-frequency;Lucid Dreaming|lucid-dreaming;Puppets on a String|puppets-on-a-string;Push it Harder|push-it-harder;Sirens In Our Blood|sirens-in-our-blood;This is Paradise|this-is-paradise;Touch the Sky|touch-the-sky;Vi kan inte sluta|vi-kan-inte-sluta;WHEN YOU’RE SOBER|when-youre-sober;Who’s Looking Back|whos-looking-back;Jordgubbslppar|jordgubbslppar;Dancing With My Future Self|dancing-with-my-future-self;Beneath the Blue|beneath-the-blue;Floating All Day|floating-all-day;LOVE IS A DRUG|love-is-a-drug;Just Float Away|just-float-away;TE AMO|te-amo;Sola mi|sola-mi;LOVE YOU LIKE THE SUN|love-you-like-the-sun;NAKED AT MIDNIGHT|naked-at-midnight;Hon trodde hon var ensam|hon-trodde-hon-var-ensam;Up Up Up|up-up-up;Eyes wide shut,|eyes-wide-shut;Coconut Sun|coconut-sun;Live Your Dream|live-your-dream;Don’t Wake the Neighbors|dont-wake-the-neighbors;HEY STUPID|hey-stupid;Little Spider, Climb Again|little-spider-climb-again".split(';').forEach(x=>{const [n,u]=x.split('|');T[norm(n)]='https://soundcloud.com/bardlix/'+u});
-  const w=SC.Widget(document.getElementById('scp'));
-  const tap=document.getElementById('tap');let playing=false;
-  w.bind(SC.Widget.Events.PLAY,()=>{playing=true;tap.hidden=true});
-  let curUrl=decodeURIComponent((document.getElementById('scp').src.match(/url=([^&]*)/)||[])[1]||'');
+  let curUrl='';
   const figUrl=f=>f.dataset.sc||url(f.querySelector('figcaption').textContent);
-  const mark=()=>document.querySelectorAll('.covers figure').forEach(f=>f.classList.toggle('now',!!curUrl&&figUrl(f)===curUrl));
-  const play=(u,noScroll)=>{if(!noScroll)document.getElementById('musik').scrollIntoView({behavior:'smooth'});
-    curUrl=u;mark();
-    document.getElementById('scp').style.height=u.includes('/sets/')?'340px':'';document.getElementById('pcov').hidden=true;
-    tap.hidden=true;playing=false;
-    w.load(u,{auto_play:true,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true,callback:()=>{w.setVolume(window.__bxVol);w.play()}});
-    setTimeout(()=>{if(!playing)tap.hidden=false},3500)};
-  window.__bxPlay=u=>play(u);window.__bxMainW=w;
-  window.__bxVolW.push(w);w.bind(SC.Widget.Events.READY,()=>w.setVolume(window.__bxVol));
-  // when a single song ends, continue with the next cover in gallery order (playlists advance on their own)
-  w.bind(SC.Widget.Events.FINISH,()=>{
-    if(!curUrl||curUrl.includes('/sets/'))return;
-    const figs=[...document.querySelectorAll('.covers figure')].filter(f=>!f.querySelector('.fbtn')||true);
-    const i=figs.findIndex(f=>figUrl(f)===curUrl);if(i<0)return;
-    for(let k=1;k<=figs.length;k++){const n=figs[(i+k)%figs.length],u=figUrl(n);if(u&&u!==curUrl){play(u,true);return}}});
-  w.bind(SC.Widget.Events.PLAY,()=>{window.__bxRadioPause&&window.__bxRadioPause();
-    const f=[...document.querySelectorAll('.covers figure')].find(f=>figUrl(f)===curUrl);
-    const pc=document.getElementById('pcov');if(f){pc.src=f.querySelector('img').getAttribute('src');pc.hidden=curUrl.includes('/sets/')}else pc.hidden=true;
-    if(f&&window.__bxGlow)window.__bxGlow(f.querySelector('img').getAttribute('src'))});
+  const figs=()=>[...document.querySelectorAll('.covers figure')];
+  window.__bxMark=title=>{const nt=t=>norm(t).replace(/^\d+/,'');
+    const single=curUrl&&!curUrl.includes('/sets/');let hit=null;
+    if(single)hit=figs().find(f=>figUrl(f)===curUrl);
+    else if(title)hit=figs().find(f=>nt(f.querySelector('figcaption').textContent)===nt(title));
+    figs().forEach(f=>f.classList.toggle('now',f===hit));
+    document.querySelectorAll('.plcard').forEach(c=>c.classList.toggle('now',!!curUrl&&c.dataset.url===curUrl));
+    return hit};
+  window.__bxIsSingle=()=>!!curUrl&&!curUrl.includes('/sets/');
+  window.__bxPlay=u=>{curUrl=u;window.__bxMark();if(window.__bxRadioLoad)window.__bxRadioLoad(u);else window.__bxPendingPlay=u};
+  // step to the next/previous cover in gallery order (used when a single song ends or next/prev is pressed)
+  window.__bxStep=d=>{const fs=figs(),i=fs.findIndex(f=>figUrl(f)===curUrl);if(i<0||!fs.length)return;
+    for(let k=1;k<=fs.length;k++){const n=fs[(i+d*k+fs.length*k)%fs.length],u=figUrl(n);if(u&&u!==curUrl){window.__bxPlay(u);return}}};
   const url=name=>{const n=norm(name);return T[alias[n]||n]};
   document.querySelectorAll('.covers figure').forEach(f=>{
     const name=f.querySelector('figcaption').textContent;
@@ -411,10 +390,9 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
       window.__bxCount&&window.__bxCount('play/'+name,'Play: '+name);
       const u=f.dataset.sc||url(name);
       if(!u){window.open('https://soundcloud.com/search?q='+encodeURIComponent('bardlix '+name),'_blank','noopener');return}
-      play(u);
+      window.__bxPlay(u);
     });
   });
-  mark();
 })();
 
 // Cover order: order.json for everyone; ?edit = drag & drop mode (draft kept in this browser)
@@ -508,38 +486,52 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
       c.innerHTML='<img alt="" loading="lazy" width="480" height="480"><div><h4></h4><span></span><b class="pl">▶ Play</b></div>';
       const im=c.querySelector('img');im.src='assets/playlists/'+p.cover+'.jpg';im.alt='Playlist cover: '+p.title;
       c.querySelector('h4').textContent=p.title;c.querySelector('span').textContent=p.tracks+' tracks';
-      c.onclick=()=>{window.__bxCount&&window.__bxCount('playlist/'+p.title,'Playlist: '+p.title);window.__bxPlay&&window.__bxPlay(p.url)};grid.appendChild(c)});
+      c.dataset.url=p.url;c.onclick=()=>{window.__bxCount&&window.__bxCount('playlist/'+p.title,'Playlist: '+p.title);window.__bxPlay&&window.__bxPlay(p.url)};grid.appendChild(c)});
     sec.hidden=false});
 })();
 
-// Bardlix Radio: plays a SoundCloud playlist (radio.json); pauses when a song is played in the main player and vice versa
+// Bardlix player (bottom bar): plays covers and playlists picked on the page; also the radio (radio.json playlist) when nothing is picked
 (function(){
   const bar=document.getElementById('radio');if(!bar)return;
-  const edit=/[?&]edit(=|&|$)/.test(location.search),force=/[?&]radio(=|&|$)/.test(location.search);
+  const edit=/[?&]edit(=|&|$)/.test(location.search);
+  if(edit)return;
   fetch('radio.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).catch(()=>null).then(cfg=>{
-    if(!cfg||!cfg.url||edit||!(cfg.enabled||force))return;
+    cfg=cfg||{};const first=cfg.url||'https://soundcloud.com/bardlix/sets/dj-bardlix-trance-action';
     document.getElementById('rtitle').textContent=cfg.title||'Bardlix Radio';
-    const fr=document.createElement('iframe');fr.id='rscp';fr.allow='autoplay';fr.title='Bardlix Radio player';
+    const fr=document.createElement('iframe');fr.id='rscp';fr.allow='autoplay';fr.title='Bardlix player';
     fr.style.cssText='position:fixed;left:-9999px;bottom:0;width:320px;height:166px;border:0';
-    fr.src='https://w.soundcloud.com/player/?url='+encodeURIComponent(cfg.url)+'&auto_play=false&visual=false&hide_related=true&show_comments=false&show_user=false';
+    const opts='&auto_play=false&visual=false&hide_related=true&show_comments=false&show_user=false';
+    const pend=window.__bxPendingPlay;
+    fr.src='https://w.soundcloud.com/player/?url='+encodeURIComponent(first)+opts;
     document.body.appendChild(fr);
     const w=SC.Widget(fr),E=SC.Widget.Events,$=id=>document.getElementById(id);
-    let playing=false,shuffle=false,total=0,started=false;
+    let playing=false,shuffle=false,total=0,started=false,cur='',hintT=0;
     bar.hidden=false;document.body.classList.add('hasradio');
-    let cur='';
     const ui=()=>{bar.classList.toggle('on',playing);$('rplay').textContent=playing?'❚❚':'▶';
       if(cur)$('rnow').textContent=(playing?'Now playing: ':'Paused: ')+cur};
-    const now=()=>w.getCurrentSound(s=>{if(!s)return;cur=s.title;if(playing||started)ui();if(window.__bxGlow){const nm=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'');const g=[...document.querySelectorAll('.covers figure')].find(f=>nm(f.querySelector('figcaption').textContent).replace(/^\d+/,'')===nm(s.title).replace(/^\d+/,''));if(playing||started)window.__bxGlow(g?g.querySelector('img').getAttribute('src'):(s.artwork_url||'').replace('-large','-t200x200'))}
-      const nm2=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'').replace(/^\d+/,'');const lf=[...document.querySelectorAll('.covers figure')].find(f=>nm2(f.querySelector('figcaption').textContent)===nm2(s.title));const a=lf?lf.querySelector('img').getAttribute('src'):(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');if(a)$('rdisc').style.backgroundImage='url('+a+')'});
+    const nm2=t=>(t||'').toLowerCase().replace(/[^a-z0-9åäö]+/g,'').replace(/^\d+/,'');
+    const now=()=>w.getCurrentSound(s=>{if(!s)return;cur=s.title;if(playing||started)ui();
+      const hit=window.__bxMark?window.__bxMark(s.title):null;
+      const lf=hit||[...document.querySelectorAll('.covers figure')].find(f=>nm2(f.querySelector('figcaption').textContent)===nm2(s.title));
+      const art=lf?lf.querySelector('img').getAttribute('src'):(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');
+      if((playing||started)&&window.__bxGlow)window.__bxGlow(art);
+      if(art)$('rdisc').style.backgroundImage='url('+art+')'});
     window.__bxVolW.push(w);
     w.bind(E.READY,()=>{w.setVolume(window.__bxVol);w.getSounds(l=>{total=(l||[]).length});now()});
-    w.bind(E.PLAY,()=>{if(!started)window.__bxCount&&window.__bxCount('radio/start','Radio started');playing=true;started=true;ui();now();window.__bxMainW&&window.__bxMainW.pause()});
+    w.bind(E.PLAY,()=>{if(!started)window.__bxCount&&window.__bxCount('radio/start','Player started');playing=true;started=true;clearTimeout(hintT);ui();now()});
     w.bind(E.PAUSE,()=>{playing=false;ui()});
-    w.bind(E.FINISH,()=>{if(shuffle&&total>1)setTimeout(()=>w.skip(Math.floor(Math.random()*total)),150)});
-    window.__bxRadioPause=()=>{if(playing)w.pause()};
+    w.bind(E.FINISH,()=>{
+      if(window.__bxIsSingle&&window.__bxIsSingle()){window.__bxStep(shuffle?Math.floor(Math.random()*40)+1:1);return}
+      if(shuffle&&total>1)setTimeout(()=>w.skip(Math.floor(Math.random()*total)),150)});
+    window.__bxRadioLoad=u=>{
+      if(bar.classList.contains('min')){bar.classList.remove('min');document.body.classList.add('hasradio')}
+      playing=false;clearTimeout(hintT);cur='';$('rnow').textContent='Loading…';
+      w.load(u,{auto_play:true,color:'#ff6a1a',visual:false,show_comments:false,hide_related:true,show_user:false,callback:()=>{w.setVolume(window.__bxVol);w.play();now()}});
+      hintT=setTimeout(()=>{if(!playing)$('rnow').textContent='Tap ▶ to start the song'},3500)};
+    if(pend)window.__bxRadioLoad(pend);
     $('rplay').onclick=()=>w.toggle();
-    $('rnext').onclick=()=>shuffle&&total>1?w.skip(Math.floor(Math.random()*total)):w.next();
-    $('rprev').onclick=()=>w.prev();
+    $('rnext').onclick=()=>window.__bxIsSingle&&window.__bxIsSingle()?window.__bxStep(1):shuffle&&total>1?w.skip(Math.floor(Math.random()*total)):w.next();
+    $('rprev').onclick=()=>window.__bxIsSingle&&window.__bxIsSingle()?window.__bxStep(-1):w.prev();
     $('rshuf').onclick=()=>{shuffle=!shuffle;$('rshuf').classList.toggle('on',shuffle)};
     $('rmin').onclick=()=>{bar.classList.add('min');document.body.classList.remove('hasradio')};
     $('rexp').onclick=$('rdisc').onclick=()=>{if(bar.classList.contains('min')){bar.classList.remove('min');document.body.classList.add('hasradio')}};
