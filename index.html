@@ -75,6 +75,7 @@ nav .logo img{height:28px;display:block}
 :root{--g:#ff6a1a;transition:--g 1.4s ease}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;background:radial-gradient(85vw 70vh at 85% 105%,color-mix(in srgb,var(--g) 58%,transparent),transparent 72%),radial-gradient(75vw 65vh at 5% -5%,color-mix(in srgb,var(--g) 42%,transparent),transparent 72%),radial-gradient(60vw 60vh at 50% 50%,color-mix(in srgb,var(--g) 14%,transparent),transparent 80%)}
 html.glow body::before{opacity:1}
+#bgart{position:fixed;inset:0;z-index:-1;pointer-events:none;background:center/cover no-repeat;filter:blur(2px);opacity:0;transition:opacity 1.2s ease}#bgart::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(5,6,13,.62),rgba(5,6,13,.74))}#bgart.on{opacity:1}@media(max-width:900px),(hover:none){#bgart{display:none}}
 html.glow .radio{border-top-color:var(--g);box-shadow:0 -10px 50px color-mix(in srgb,var(--g) 45%,transparent)}html.glow .rdisc{box-shadow:0 0 0 2px var(--g),0 0 18px var(--g)}
 .covers figure.now{outline-color:var(--g,var(--orange))}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
@@ -515,7 +516,9 @@ window.__bxVolSet=v=>{window.__bxVol=v;window.__bxVolW.forEach(w=>{try{w.setVolu
       const lf=hit||[...document.querySelectorAll('.covers figure')].find(f=>nm2(f.querySelector('figcaption').textContent)===nm2(s.title));
       const art=lf?lf.querySelector('img').getAttribute('src'):(s.artwork_url||(s.user&&s.user.avatar_url)||'').replace('-large','-t200x200');
       if((playing||started)&&window.__bxGlow)window.__bxGlow(art);
-      if(art)$('rdisc').style.backgroundImage='url('+art+')'});
+      if(art)$('rdisc').style.backgroundImage='url('+art+')';
+      if(art&&(playing||started)){let bg=document.getElementById('bgart');if(!bg){bg=document.createElement('div');bg.id='bgart';document.body.prepend(bg)}
+        bg.style.backgroundImage='url('+(lf?art:art.replace('-t200x200','-t500x500'))+')';requestAnimationFrame(()=>bg.classList.add('on'))}});
     let dur=0,drag=false;const fmt=ms=>{const t=Math.max(0,Math.floor(ms/1000));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
     const getDur=()=>w.getDuration(d=>{dur=d||0;$('rdur').textContent=fmt(dur)});
     const sk=$('rseek');
