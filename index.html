@@ -78,6 +78,8 @@ html.glow body::before{opacity:1}
 #bgart{position:fixed;inset:0;z-index:-1;pointer-events:none;background:center/cover no-repeat;filter:blur(2px);opacity:0;transition:opacity 1.2s ease}#bgart::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(5,6,13,.62),rgba(5,6,13,.74))}#bgart.on{opacity:1}@media(max-width:900px),(hover:none){#bgart{display:none}}
 html.glow .radio{border-top-color:var(--g);box-shadow:0 -10px 50px color-mix(in srgb,var(--g) 45%,transparent)}html.glow .rdisc{box-shadow:0 0 0 2px var(--g),0 0 18px var(--g)}
 .covers figure.now{outline-color:var(--g,var(--orange))}
+.btn.soc{display:inline-flex;align-items:center;gap:10px;padding:11px 22px}
+.socials{margin-top:18px}
 .links{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px}
 footer .priv{max-width:620px;margin:18px auto 0;letter-spacing:0;text-transform:none;font-size:.72rem;line-height:1.5;opacity:.8}
 footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78rem;letter-spacing:.2em;border-top:1px solid var(--line)}
@@ -143,6 +145,9 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   <h3>Pick a song &ndash; it plays in the player at the bottom</h3>
   <div class="links" style="margin:0 0 18px"><a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">Follow on SoundCloud</a></div>
   <div class="covers">
+    <figure data-sc="https://soundcloud.com/bardlix/ufo-needs-gas"><img src="assets/covers/ufo-needs-gas.webp" alt="Cover art: UFO Needs Gas" loading="lazy" width="480" height="480"><figcaption>UFO Needs Gas</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/on-my-own"><img src="assets/covers/on-my-own.webp" alt="Cover art: ON MY OWN" loading="lazy" width="480" height="480"><figcaption>ON MY OWN</figcaption></figure>
+    <figure data-sc="https://soundcloud.com/bardlix/we-dont-stop"><img src="assets/covers/we-dont-stop.webp" alt="Cover art: We Don't Stop" loading="lazy" width="480" height="480"><figcaption>We Don't Stop</figcaption></figure>
     <figure data-sc="https://soundcloud.com/bardlix/black-rose-timing"><img src="assets/covers/black-rose-timing.webp" alt="Cover art: Black Rose Timing" loading="lazy" width="480" height="480"><figcaption>Black Rose Timing</figcaption></figure>
     <figure data-sc="https://soundcloud.com/bardlix/after-dark-ii"><img src="assets/covers/after-dark-ii.webp" alt="Cover art: AFTER DARK II" loading="lazy" width="480" height="480"><figcaption>AFTER DARK II</figcaption></figure>
     <figure data-sc="https://soundcloud.com/bardlix/hjaertat-sla"><img src="assets/covers/hjaertat-sla.webp" alt="Cover art: Hjärtat slå" loading="lazy" width="480" height="480"><figcaption>Hjärtat slå</figcaption></figure>
@@ -306,8 +311,13 @@ footer{text-align:center;padding:40px 6vw 60px;color:var(--muted);font-size:.78r
   <h3>Bookings & collaborations</h3>
   <p>Get in touch for gigs, remixes or collaborations.</p>
   <div class="links">
-    <a class="btn fill" href="mailto:stillbykenny@gmail.com">Email me</a>
+    <a class="btn fill" href="mailto:djbardlix@gmail.com">Email me</a>
     <a class="btn" href="https://soundcloud.com/bardlix" target="_blank" rel="noopener">SoundCloud</a>
+  </div>
+  <div class="links socials">
+    <a class="btn soc" href="https://www.youtube.com/@Bardlix" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg><span>YouTube</span></a>
+    <a class="btn soc" href="https://www.tiktok.com/@bardlixcrib" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M19.6 6.7a4.8 4.8 0 0 1-3.8-4.2h-3.4v13.7a2.9 2.9 0 1 1-2-2.8V9.9a6.3 6.3 0 1 0 5.4 6.3V9.1a8.2 8.2 0 0 0 4.8 1.5V7.2a4.8 4.8 0 0 1-1-.5z"/></svg><span>TikTok</span></a>
+    <a class="btn soc" href="https://www.instagram.com/djbardlix/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg><span>Instagram</span></a>
   </div>
 </section>
 
